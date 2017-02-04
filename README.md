@@ -4,3 +4,5 @@ Authors: Alex Boukhvalova, Brian Fitzgerald, Matt Kim, Larry Bathon, Rishabh Sha
 Resources
 Changing activities using a button:
 https://www.mkyong.com/android/android-activity-from-one-screen-to-another-screen/
+Creating an alert dialog:
+https://www.mkyong.com/android/android-alert-dialog-example/
