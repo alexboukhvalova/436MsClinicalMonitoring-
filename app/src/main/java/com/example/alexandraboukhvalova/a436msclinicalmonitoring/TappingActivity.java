@@ -11,6 +11,7 @@ import android.widget.Button;
 public class TappingActivity extends AppCompatActivity {
     Button instructionsBtn;
     Context context = this;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
