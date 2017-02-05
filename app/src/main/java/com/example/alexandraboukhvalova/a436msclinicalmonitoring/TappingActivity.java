@@ -42,7 +42,6 @@ public class TappingActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog,int id) {
                                 // if this button is clicked, close
                                 // current activity
-
                             }
                         });
 
