@@ -22,4 +22,52 @@
         android:layout_marginTop="34dp"
         android:id="@+id/InstructionsButton" />
 
+    <Button
+        android:text="Begin Tap Test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/BeginTapTestButton" />
+
+    <TextView
+        android:text="With your LEFT hand,"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/PrepTextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:visibility="invisible"
+        android:layout_below="@+id/InstructionsButton"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="get ready to tap in:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/PreparationTextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:visibility="invisible"
+        android:layout_below="@+id/PrepTextView"
+        android:layout_alignLeft="@+id/InstructionsButton"
+        android:layout_alignStart="@+id/InstructionsButton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/CountdownTextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:visibility="invisible" />
+
+    <Chronometer
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="19dp"
+        android:id="@+id/TapTestChronometer"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:visibility="invisible" />
+
 </RelativeLayout>
