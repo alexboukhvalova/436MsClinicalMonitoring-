@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button tappingActivityBtn;
     Button timerTestActivityBtn;
+    Button counterActivityBtn;
 
 
     @Override
