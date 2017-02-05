@@ -1,5 +1,6 @@
 package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.os.*;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,8 +51,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                Intent intent = new Intent(context, TappingActivity.class);
-                startActivity(intent);
+                tappingActivityBtn.setVisibility(View.GONE);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Tap Test Instructions");
+                builder.setMessage("When the countdown completes, use your LEFT hand to tap the box" +
+                        " as many times as possible within 10 seconds. After the first round ends, repeat this " +
+                        "process with your RIGHT hand.");
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent intent = new Intent(context, TappingActivity.class);
+                        startActivity(intent);
+                    }
+                }, 5000);
+
 
             }
 
@@ -56,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

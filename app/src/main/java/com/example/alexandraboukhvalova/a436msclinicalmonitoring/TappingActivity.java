@@ -30,13 +30,15 @@ public class TappingActivity extends AppCompatActivity {
                         context);
 
                 // set title
-                alertDialogBuilder.setTitle("Your Title");
+                alertDialogBuilder.setTitle("Tap Test Instructions");
 
                 // set dialog message
                 alertDialogBuilder
-                        .setMessage("Click ok to exit!")
+                        .setMessage("When the countdown completes, use your LEFT hand to tap the box as " +
+                                "many times as possible within 10 seconds. After the first round ends, repeat this " +
+                                "process with your RIGHT hand.\"")
                         .setCancelable(false)
-                        .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Okay",new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
                                 // if this button is clicked, close
                                 // current activity
