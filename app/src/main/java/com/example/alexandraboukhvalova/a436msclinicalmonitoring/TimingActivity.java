@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -21,6 +22,9 @@ public class TimingActivity extends AppCompatActivity {
     private String minutes,seconds;
     private long secs,mins,hrs,msecs;
     private boolean stopped = false;
+
+    // must be accessible from anonymous inner classes
+    private final int[] counter = {0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,15 +95,19 @@ public class TimingActivity extends AppCompatActivity {
                 /* TODO: Matt count the number of taps during this time period, but make a method outside of this Runnable*/
                 /* TODO: Brian display first 10 second timer*/
                 currEvent.setText("LEFT HAND TRIAL 1");
+                tapHearing();
             } else if (secs == 17) {
                 /* TODO: Matt display tap count from left hand trial 1*/
                 currEvent.setText("DISPLAY TAP COUNT FOR 2 seconds");
+                displayCounter();
             } else if (secs == 19) {
                 /* TODO: Brian display 10 second timer*/
                 currEvent.setText("LEFT HAND TRIAL 2");
+                tapHearing();
             } else if (secs == 29) {
                 /* TODO: Matt display tap count from left hand trial 1*/
                 currEvent.setText("DISPLAY TAP COUNT FOR 2 seconds");
+                displayCounter();
             } else if (secs > 31) {
                 currEvent.setText("Press Start Test to begin again.");
                 ((TextView)findViewById(R.id.timerTextView)).setText("00:00");
@@ -108,4 +116,23 @@ public class TimingActivity extends AppCompatActivity {
             mHandler.postDelayed(this,REFRESH_RATE);
         }
     };
+
+    // initiates a trial; the entire screen is listening for taps
+    private void tapHearing() {
+        RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+        allScreen.setOnClickListener(new View.OnClickListener() {
+            // reset to 0 whenever the listener is set (?)
+            int currCount = 0;
+            @Override
+            public void onClick(View view) {
+                currCount++;
+                counter[0] = currCount;
+            }
+        });
+    }
+
+    public void displayCounter() {
+        TextView counterDisplay = (TextView) findViewById(R.id.eventTextView);
+        counterDisplay.setText("Number of recorded taps: "+counter[0]);
+    }
 }

@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".TappingActivity" />
-        <activity android:name=".TimingActivity"></activity>
+        <activity android:name=".TimingActivity" />
     </application>
 
 </manifest>
