@@ -40,4 +40,13 @@
         android:layout_toLeftOf="@+id/timerTextView"
         android:layout_toStartOf="@+id/timerTextView" />
 
+    <Chronometer
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/eventTextView"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/TapTestChronometer"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:visibility="invisible" />
+
 </RelativeLayout>
