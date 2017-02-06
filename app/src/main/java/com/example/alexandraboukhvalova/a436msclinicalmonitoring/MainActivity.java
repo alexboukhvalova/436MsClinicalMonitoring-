@@ -19,6 +19,8 @@ import android.os.*;
 public class MainActivity extends AppCompatActivity {
 
     Button tappingActivityBtn;
+    Button timerTestActivityBtn;
+    Button counterActivityBtn;
 
 
     @Override
@@ -73,6 +75,18 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
+        });
+
+        timerTestActivityBtn = (Button) findViewById(R.id.timerTestButton);
+
+        timerTestActivityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(context, TimingActivity.class);
+                startActivity(intent);
+
+            }
         });
 
     }
