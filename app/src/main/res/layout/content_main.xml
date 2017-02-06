@@ -20,7 +20,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/TappingActivityButton" />
+        android:id="@+id/TappingActivityButton"
+        android:onClick="displayInstructions"/>
+
+
 
     <Button
         android:text="Timer Test Activity"
