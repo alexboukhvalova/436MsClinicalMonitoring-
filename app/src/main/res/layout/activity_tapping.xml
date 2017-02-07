@@ -20,14 +20,14 @@
         android:visibility="invisible" />
 
     <Button
-        android:text="Start Test"
+        android:text="Go To Test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/starTestButton"
         android:onClick="startClick"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/TapTestChronometer"
-        android:layout_toEndOf="@+id/TapTestChronometer" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:text="Instructions"
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/InstructionsButton"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/TapTestChronometer"
-        android:layout_toStartOf="@+id/TapTestChronometer" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
