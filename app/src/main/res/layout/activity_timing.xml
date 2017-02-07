@@ -18,6 +18,7 @@
         android:layout_alignLeft="@+id/starTimerButton"
         android:layout_alignStart="@+id/starTimerButton"
         android:layout_marginTop="22dp"
+        android:textSize="30dp"
         android:id="@+id/eventTextView" />
 
     <TextView
@@ -48,5 +49,16 @@
         android:id="@+id/TapTestChronometer"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:visibility="invisible" />
+
+    <TextView
+        android:text="Number of taps: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28dp"
+        android:id="@+id/tapCounterTextView"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/TapTestChronometer"
+        android:layout_alignRight="@+id/timerTextView"
+        android:layout_alignEnd="@+id/timerTextView" />
 
 </RelativeLayout>

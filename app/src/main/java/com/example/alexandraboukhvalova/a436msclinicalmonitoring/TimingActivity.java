@@ -35,6 +35,7 @@ public class TimingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timing);
 
         tempTextView = (TextView)findViewById(R.id.timerTextView);
+        ((TextView)findViewById(R.id.timerTextView)).setVisibility(View.INVISIBLE);
         currEvent = (TextView)findViewById(R.id.eventTextView);
         tempBtn = (Button)findViewById(R.id.starTimerButton);
 
@@ -109,28 +110,31 @@ public class TimingActivity extends AppCompatActivity {
             updateTimer(elapsedTime);
 
             if(secs == 2) {
-                /* TODO: Display indication to the user to use their left hand*/
+                /* Display indication to the user to use their left hand*/
                 currEvent.setText("LEFT HAND");
             } else if (secs == 4) {
-                /* TODO: Rishabh display a 3 second countdown in the middle of the screen in big numbers*/
+                /* display a 3 second countdown in the middle of the screen in big numbers*/
                 currEvent.setText("3 SECOND COUNTDOWN");
+                ((TextView)findViewById(R.id.timerTextView)).setVisibility(View.VISIBLE);
+
             } else if (secs == 7) {
-                /* TODO: Matt count the number of taps during this time period, but make a method outside of this Runnable*/
-                /* TODO: Brian display first 10 second timer*/
+                /* Matt count the number of taps during this time period, but make a method outside of this Runnable*/
+                /* Brian display first 10 second timer*/
                 performTrialTiming();
                 currEvent.setText("LEFT HAND TRIAL 1");
                 tapHearing();
+                ((TextView)findViewById(R.id.timerTextView)).setVisibility(View.INVISIBLE);
             } else if (secs == 17) {
-                /* TODO: Matt display tap count from left hand trial 1*/
+                /* Matt display tap count from left hand trial 1*/
                 currEvent.setText("DISPLAY TAP COUNT FOR 2 seconds");
                 displayCounter();
             } else if (secs == 19) {
-                /* TODO: Brian display 10 second timer*/
+                /* display 10 second timer*/
                 performTrialTiming();
                 currEvent.setText("LEFT HAND TRIAL 2");
                 tapHearing();
             } else if (secs == 29) {
-                /* TODO: Matt display tap count from left hand trial 1*/
+                /* display tap count from left hand trial 1*/
                 currEvent.setText("DISPLAY TAP COUNT FOR 2 seconds");
                 displayCounter();
             } else if (secs > 31) {
@@ -157,7 +161,7 @@ public class TimingActivity extends AppCompatActivity {
     }
 
     public void displayCounter() {
-        TextView counterDisplay = (TextView) findViewById(R.id.eventTextView);
+        TextView counterDisplay = (TextView) findViewById(R.id.tapCounterTextView);
         counterDisplay.setText("Number of recorded taps: "+counter[0]);
     }
 }
