@@ -2,6 +2,7 @@ package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -30,14 +31,14 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         addListenerOnButton();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
     }
 
 
@@ -57,17 +58,24 @@ public class MainActivity extends AppCompatActivity {
                 builder.setMessage("When the countdown completes, use your LEFT hand to tap the box" +
                         " as many times as possible within 10 seconds. After the first round ends, repeat this " +
                         "process with your RIGHT hand.");
+                builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                Intent intent = new Intent(context, TappingActivity.class);
+                                startActivity(intent);
+                            }
+                        }, 50);
+                    }
+                });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
 
-                        Intent intent = new Intent(context, TappingActivity.class);
-                        startActivity(intent);
-                    }
-                }, 5000);
 
 
             }
