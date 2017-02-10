@@ -1,5 +1,5 @@
 # 436MsClinicalMonitoring-
-Authors: Alex Boukhvalova, Brian Fitzgerald, Matt Kim, Larry Bathon, Rishabh Sharan
+Authors: Alex Boukhvalova, Brian Fitzgerald, Matt Kim, Larry Bathon, Rishabh Sharan, Abdullah Alshabeeb
 
 Resources
 Changing activities using a button:
