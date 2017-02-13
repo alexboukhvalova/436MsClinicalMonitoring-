@@ -155,13 +155,13 @@ public class TimingActivity extends AppCompatActivity {
                 performTrialTiming();
                 currEvent.setText("LEFT HAND TRIAL 2");
                 tapHearing();
-            } else if (secs == 30) {
+            } else if (secs == 31) {
                 /* display tap count from left hand trial 1*/
                 RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
                 allScreen.setClickable(false);
                 currEvent.setText("Done!");
                 displayCounter();
-            } else if (secs > 32) {
+            } else if (secs > 33) {
                 currEvent.setText("Press Start Test to begin again.");
                 TextView counterDisplay = (TextView) findViewById(R.id.tapCounterTextView);
                 counterDisplay.setVisibility(View.INVISIBLE);
