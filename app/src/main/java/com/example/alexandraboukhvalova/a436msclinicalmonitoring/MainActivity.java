@@ -20,6 +20,7 @@ import android.os.*;
 public class MainActivity extends AppCompatActivity {
 
     Button tappingActivityBtn;
+    Button spiralActivityBtn;
 
 
 
@@ -81,6 +82,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
+        });
+
+        spiralActivityBtn = (Button)findViewById(R.id.SpiralActivityButton);
+        spiralActivityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, SpiralActivity.class);
+                startActivity(intent);
+            }
         });
 
     }
