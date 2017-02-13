@@ -20,15 +20,16 @@ import android.os.*;
 public class MainActivity extends AppCompatActivity {
 
     Button tappingActivityBtn;
-
+    Button spiralActivityBtn;
+    Button resultsActivityBtn;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         addListenerOnButton();
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         final Context context = this;
 
         tappingActivityBtn = (Button) findViewById(R.id.TappingActivityButton);
+        spiralActivityBtn = (Button) findViewById(R.id.SpiralActivityButton);
+        resultsActivityBtn = (Button) findViewById(R.id.ResultsActivityButton);
 
         tappingActivityBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -68,6 +71,76 @@ public class MainActivity extends AppCompatActivity {
 
                                 Intent intent = new Intent(context, TappingActivity.class);
                                 startActivity(intent);
+                            }
+                        }, 50);
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+
+
+
+            }
+
+
+        });
+
+        spiralActivityBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Spiral Test Instructions");
+                builder.setMessage("When the countdown completes, use your LEFT hand to trace the spiral" +
+                        " that appears on the screen. After the first round ends, repeat this " +
+                        "process with your RIGHT hand.");
+                builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                /* Fill in correct activity once class name is known
+                                Intent intent = new Intent(context, SpiralActivity.class);
+                                startActivity(intent);
+                                */
+                            }
+                        }, 50);
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+
+
+
+            }
+
+
+        });
+
+        resultsActivityBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Test Results");
+                builder.setMessage("This page contains the results for the most recent set of tests");
+                builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                /* Fill in correct activity once class name is known
+                                Intent intent = new Intent(context, ResultsActivity.class);
+                                startActivity(intent);
+                                */
                             }
                         }, 50);
                     }
