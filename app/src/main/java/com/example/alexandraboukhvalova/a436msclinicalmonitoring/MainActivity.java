@@ -103,10 +103,8 @@ public class MainActivity extends AppCompatActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                /* Fill in correct activity once class name is known
                                 Intent intent = new Intent(context, SpiralActivity.class);
                                 startActivity(intent);
-                                */
                             }
                         }, 50);
                     }
