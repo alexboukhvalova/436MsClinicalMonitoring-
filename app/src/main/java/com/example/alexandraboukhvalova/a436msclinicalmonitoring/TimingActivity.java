@@ -27,6 +27,7 @@ public class TimingActivity extends AppCompatActivity {
     private long secs,mins,hrs,msecs;
     private boolean stopped = false;
     private TextView threeSecondTimerText;
+    private Button tapArena;
 
     // must be accessible from anonymous inner classes
     private final int[] counter = {0};
@@ -54,6 +55,8 @@ public class TimingActivity extends AppCompatActivity {
                 }
             }
         });
+
+        hideArena();
     }
 
     public void startClick (View view){
@@ -147,6 +150,7 @@ public class TimingActivity extends AppCompatActivity {
                 /* Matt display tap count from left hand trial 1*/
                 //((TextView)findViewById(R.id.timerTextView)).setVisibility(View.INVISIBLE);
                 currEvent.setText("Done!");
+                hideArena();
                 displayCounter();
             } else if (secs == 20) {
                 /* display 10 second timer*/
@@ -160,6 +164,7 @@ public class TimingActivity extends AppCompatActivity {
                 RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
                 allScreen.setClickable(false);
                 currEvent.setText("Done!");
+                hideArena();
                 displayCounter();
             } else if (secs > 32) {
                 currEvent.setText("Press Start Test to begin again.");
@@ -178,8 +183,8 @@ public class TimingActivity extends AppCompatActivity {
 
     // initiates a trial; the entire screen is listening for taps
     private void tapHearing() {
-        RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
-        allScreen.setOnClickListener(new View.OnClickListener() {
+        Button tapArena = (Button) findViewById(R.id.tapArena);
+        tapArena.setOnClickListener(new View.OnClickListener() {
             // reset to 0 whenever the listener is set (?)
             int currCount = 0;
             @Override
@@ -188,6 +193,12 @@ public class TimingActivity extends AppCompatActivity {
                 counter[0] = currCount;
             }
         });
+        tapArena.setVisibility(View.VISIBLE);
+    }
+
+    private void hideArena() {
+        Button tapArena = (Button) findViewById(R.id.tapArena);
+        tapArena.setVisibility(View.GONE);
     }
 
     public void displayCounter() {
