@@ -142,6 +142,7 @@ public class TimingActivity extends AppCompatActivity {
                 /* Brian display first 10 second timer*/
                 performTrialTiming();
                 currEvent.setText("LEFT HAND TRIAL 1");
+                resetCounter();
                 tapHearing();
             }else if(secs == 17) {
                 RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
@@ -158,6 +159,7 @@ public class TimingActivity extends AppCompatActivity {
                 allScreen.setClickable(true);
                 performTrialTiming();
                 currEvent.setText("LEFT HAND TRIAL 2");
+                resetCounter();
                 tapHearing();
             } else if (secs == 31) {
                 /* display tap count from left hand trial 1*/
@@ -205,5 +207,9 @@ public class TimingActivity extends AppCompatActivity {
         TextView counterDisplay = (TextView) findViewById(R.id.tapCounterTextView);
         counterDisplay.setVisibility(View.VISIBLE);
         counterDisplay.setText("Number of recorded taps: "+counter[0]);
+    }
+
+    public void resetCounter() {
+        counter[0] = 0;
     }
 }
