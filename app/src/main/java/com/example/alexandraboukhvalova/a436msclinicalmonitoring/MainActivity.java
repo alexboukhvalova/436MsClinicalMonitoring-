@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -20,6 +18,7 @@ import android.os.*;
 public class MainActivity extends AppCompatActivity {
 
     Button tappingActivityBtn;
+    Button spiralButton;
 
 
 
@@ -30,15 +29,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         addListenerOnButton();
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
     }
 
 
@@ -74,10 +64,36 @@ public class MainActivity extends AppCompatActivity {
                 });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
+            }
 
 
+        });
+        spiralButton=(Button) findViewById(R.id.spiralActivityButton);
+        spiralButton.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View arg0) {
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Spiral Test Instructions");
+                builder.setMessage("for this test, you need to draw a Spiral you can the example  " +
+                        "once you are ready click okay");
+                builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                Intent intent = new Intent(context, Spiral.class);
+                                startActivity(intent);
+                            }
+                        }, 50);
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
 
 
