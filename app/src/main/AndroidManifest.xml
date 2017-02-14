@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".TappingActivity" />
         <activity android:name=".TimingActivity" />
+        <activity android:name=".SpiralActivity" />
+        <activity android:name=".DrawingView" />
     </application>
 
 </manifest>

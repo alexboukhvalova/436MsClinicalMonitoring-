@@ -37,7 +37,7 @@ public class TimingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timing);
 
         tempTextView = (TextView)findViewById(R.id.timerTextView);
-        //((TextView)findViewById(R.id.timerTextView)).setVisibility(View.INVISIBLE);
+        ((TextView)findViewById(R.id.timerTextView)).setVisibility(View.INVISIBLE);
         currEvent = (TextView)findViewById(R.id.eventTextView);
         tempBtn = (Button)findViewById(R.id.starTimerButton);
         threeSecondTimerText = (TextView)findViewById(R.id.threeSecondTimer);
