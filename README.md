@@ -6,3 +6,8 @@ Resources:
 https://www.mkyong.com/android/android-activity-from-one-screen-to-another-screen/  
 * Creating an alert dialog:  
 https://www.mkyong.com/android/android-alert-dialog-example/
+
+Citation:
+* Spiral: spiral by Luke Peek from the Noun Project  
+https://thenounproject.com/term/spiral/745038/
+
