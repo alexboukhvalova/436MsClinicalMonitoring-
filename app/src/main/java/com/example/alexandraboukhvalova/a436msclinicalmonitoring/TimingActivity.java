@@ -183,11 +183,11 @@ public class TimingActivity extends AppCompatActivity {
         }
     };
 
-    // initiates a trial; the entire screen is listening for taps
+    // This method displays the button that the user must tap and allows taps to be counted
     private void tapHearing() {
         Button tapArena = (Button) findViewById(R.id.tapArena);
         tapArena.setOnClickListener(new View.OnClickListener() {
-            // reset to 0 whenever the listener is set (?)
+            // reset to 0 whenever the listener is set
             int currCount = 0;
             @Override
             public void onClick(View view) {
@@ -198,17 +198,21 @@ public class TimingActivity extends AppCompatActivity {
         tapArena.setVisibility(View.VISIBLE);
     }
 
+    // This method removes the button that the user must tap
     private void hideArena() {
         Button tapArena = (Button) findViewById(R.id.tapArena);
         tapArena.setVisibility(View.GONE);
     }
 
+    // This method displays the number of taps counted
     public void displayCounter() {
         TextView counterDisplay = (TextView) findViewById(R.id.tapCounterTextView);
         counterDisplay.setVisibility(View.VISIBLE);
+        // Hard-coded text that is displayed
         counterDisplay.setText("Number of recorded taps: "+counter[0]);
     }
 
+    // This method resets the counter; it should be called prior to any call to tapHearing()
     public void resetCounter() {
         counter[0] = 0;
     }
