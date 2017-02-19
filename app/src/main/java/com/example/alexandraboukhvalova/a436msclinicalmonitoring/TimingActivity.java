@@ -184,6 +184,7 @@ public class TimingActivity extends AppCompatActivity {
                 allScreen.setClickable(true);
                 performTrialTiming();
                 trialCounter++;
+                resetCounter();
                 currEvent.setText("LEFT HAND TRIAL 2 of 5");
                 tapHearing();
             }else if(secs == 30) {
@@ -199,6 +200,7 @@ public class TimingActivity extends AppCompatActivity {
                 allScreen.setClickable(true);
                 performTrialTiming();
                 trialCounter++;
+                resetCounter();
                 currEvent.setText("LEFT HAND TRIAL 3 of 5");
                 tapHearing();
             }
@@ -240,6 +242,7 @@ public class TimingActivity extends AppCompatActivity {
                 allScreen.setClickable(true);
                 performTrialTiming();
                 trialCounter++;
+                resetCounter();
                 currEvent.setText("LEFT HAND TRIAL 4 of 5");
                 tapHearing();
             }else if(secs == 10) {
@@ -256,6 +259,7 @@ public class TimingActivity extends AppCompatActivity {
                 allScreen.setClickable(true);
                 performTrialTiming();
                 trialCounter++;
+                resetCounter();
                 currEvent.setText("LEFT HAND TRIAL 5 of 5");
                 tapHearing();
             }else if(secs == 25) {
@@ -326,7 +330,8 @@ public class TimingActivity extends AppCompatActivity {
                 RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
                 allScreen.setClickable(true);
                 performTrialTiming();
-                trialCounter++;;
+                trialCounter++;
+                resetCounter();
                 currEvent.setText("RIGHT HAND TRIAL 2 of 5");
                 tapHearing();
             }else if(secs == 30) {
@@ -342,6 +347,7 @@ public class TimingActivity extends AppCompatActivity {
                 allScreen.setClickable(true);
                 performTrialTiming();
                 trialCounter++;;
+                resetCounter();
                 currEvent.setText("RIGHT HAND TRIAL 3 of 5");
                 tapHearing();
             }
@@ -384,6 +390,7 @@ public class TimingActivity extends AppCompatActivity {
                 allScreen.setClickable(true);
                 performTrialTiming();
                 trialCounter++;;
+                resetCounter();
                 currEvent.setText("RIGHT HAND TRIAL 4 of 5");
                 tapHearing();
             }else if(secs == 10) {
@@ -399,6 +406,7 @@ public class TimingActivity extends AppCompatActivity {
                 allScreen.setClickable(true);
                 performTrialTiming();
                 trialCounter++;;
+                resetCounter();
                 currEvent.setText("RIGHT HAND TRIAL 5 of 5");
                 tapHearing();
             }else if(secs == 25) {
@@ -454,4 +462,8 @@ public class TimingActivity extends AppCompatActivity {
         counterDisplay.setVisibility(View.VISIBLE);
         counterDisplay.setText("Number of recorded taps: "+counter[0]);
     }
-}
+    public void resetCounter() {
+        counter[0] = 0;
+    }
+
+    }
