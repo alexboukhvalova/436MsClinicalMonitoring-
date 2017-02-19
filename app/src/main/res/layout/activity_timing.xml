@@ -18,7 +18,7 @@
         android:layout_alignLeft="@+id/starTimerButton"
         android:layout_alignStart="@+id/starTimerButton"
         android:layout_marginTop="22dp"
-        android:textSize="30dp"
+        android:textSize="27dp"
         android:id="@+id/eventTextView" />
 
     <TextView
@@ -75,6 +75,17 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+    <Button
+        android:text="Go To Home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/goHome"
+        android:visibility="gone"
+        android:onClick="homeClick"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 
     <Button
         android:text="TAP HERE"

@@ -1,5 +1,7 @@
 package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,10 @@ public class TimingActivity extends AppCompatActivity {
     private TextView tempTextView;
     private TextView currEvent;
     private Button tempBtn;
+    private Button homePage;
+    //for you brian, this trialCounter will start at zero and increase to tell the in which triak
+    //you are
+    private int trialCounter;
     private Chronometer tapTestChronometer;
     private Handler mHandler = new Handler();
     private long startTime;
@@ -37,12 +43,14 @@ public class TimingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timing);
 
+
         tempTextView = (TextView)findViewById(R.id.timerTextView);
         ((TextView)findViewById(R.id.timerTextView)).setVisibility(View.INVISIBLE);
         currEvent = (TextView)findViewById(R.id.eventTextView);
+        homePage=(Button)findViewById(R.id.goHome);
         tempBtn = (Button)findViewById(R.id.starTimerButton);
         threeSecondTimerText = (TextView)findViewById(R.id.threeSecondTimer);
-
+        trialCounter=0;
         tapTestChronometer = (Chronometer)findViewById(R.id.TapTestChronometer);
         tapTestChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
 
@@ -69,6 +77,23 @@ public class TimingActivity extends AppCompatActivity {
         mHandler.removeCallbacks(startTimer);
         mHandler.postDelayed(startTimer, 0);
     }
+    public void homeClick(View view){
+        final Context context = this;
+        homePage = (Button) findViewById(R.id.goHome);
+
+        homePage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+
+    }
+
 
     private void updateTimer (float time){
         secs = (long)(time/1000);
@@ -138,10 +163,11 @@ public class TimingActivity extends AppCompatActivity {
                 //currEvent.setText("3 SECOND COUNTDOWN");
             } else if (secs == 7) {
                 threeSecondTimerText.setVisibility(View.GONE);
+                trialCounter++;
                 /* Matt count the number of taps during this time period, but make a method outside of this Runnable*/
                 /* Brian display first 10 second timer*/
                 performTrialTiming();
-                currEvent.setText("LEFT HAND TRIAL 1");
+                currEvent.setText("LEFT HAND TRIAL 1 of 5");
                 tapHearing();
             }else if(secs == 17) {
                 RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
@@ -157,29 +183,251 @@ public class TimingActivity extends AppCompatActivity {
                 RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
                 allScreen.setClickable(true);
                 performTrialTiming();
-                currEvent.setText("LEFT HAND TRIAL 2");
+                trialCounter++;
+                currEvent.setText("LEFT HAND TRIAL 2 of 5");
                 tapHearing();
-            } else if (secs == 31) {
-                /* display tap count from left hand trial 1*/
+            }else if(secs == 30) {
                 RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
                 allScreen.setClickable(false);
+            } else if (secs == 32) {
                 currEvent.setText("Done!");
                 hideArena();
                 displayCounter();
-            } else if (secs > 33) {
-                currEvent.setText("Press Start Test to begin again.");
+            }else if (secs == 33) {
+                /* display 10 second timer*/
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(true);
+                performTrialTiming();
+                trialCounter++;
+                currEvent.setText("LEFT HAND TRIAL 3 of 5");
+                tapHearing();
+            }
+            else if (secs == 43) {
+
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(false);
+            }else if (secs == 45) {
+                currEvent.setText("Done!");
+                hideArena();
+                displayCounter();
+            }
+
+            if(secs <= 48) {
+                mHandler.postDelayed(this, REFRESH_RATE);
+            } else {
+                if(stopped){
+                    startTime = System.currentTimeMillis() - elapsedTime;
+                }
+                else{
+                    startTime = System.currentTimeMillis();
+                }
+                mHandler.removeCallbacks(startTimer2);
+                mHandler.postDelayed(startTimer2, 0);
+
+            }
+        }
+    };
+    private Runnable startTimer2 = new Runnable() {
+        public void run() {
+
+            tempBtn.setVisibility(View.GONE);
+
+            elapsedTime = System.currentTimeMillis() - startTime;
+            updateTimer(elapsedTime);
+
+            if(secs ==0) {
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(true);
+                performTrialTiming();
+                trialCounter++;
+                currEvent.setText("LEFT HAND TRIAL 4 of 5");
+                tapHearing();
+            }else if(secs == 10) {
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(false);
+            } else if (secs == 12) {
+                currEvent.setText("Done!");
+                hideArena();
+                displayCounter();
+            } else if (secs == 15) {
+                /* display 10 second timer*/
+
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(true);
+                performTrialTiming();
+                trialCounter++;
+                currEvent.setText("LEFT HAND TRIAL 5 of 5");
+                tapHearing();
+            }else if(secs == 25) {
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(false);
+            } else if (secs == 27) {
+                /* Matt display tap count from left hand trial 1*/
+                //((TextView)findViewById(R.id.timerTextView)).setVisibility(View.INVISIBLE);
+                currEvent.setText("Done!");
+                hideArena();
+                displayCounter();
+            }
+            if(secs <= 30) {
+                mHandler.postDelayed(this, REFRESH_RATE);
+            } else {
+                if(stopped){
+                    startTime = System.currentTimeMillis() - elapsedTime;
+                }
+                else{
+                    startTime = System.currentTimeMillis();
+                }
+                mHandler.removeCallbacks(startTimer3);
+                mHandler.postDelayed(startTimer3, 0);
+
+            }
+        }
+    };
+    private Runnable startTimer3 = new Runnable() {
+        public void run() {
+
+            tempBtn.setVisibility(View.GONE);
+
+            elapsedTime = System.currentTimeMillis() - startTime;
+            updateTimer(elapsedTime);
+
+            if(secs <= 2) {
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(true);
+                TextView counterDisplay = (TextView) findViewById(R.id.tapCounterTextView);
+                counterDisplay.setVisibility(View.INVISIBLE);
+                /* Display indication to the user to use their left hand*/
+                currEvent.setVisibility(View.VISIBLE);
+                currEvent.setText("RIGHT HAND");
+                threeSecondTimerText.setVisibility(View.VISIBLE);
+                threeSecondTimerText.setText("Get ready!");
+            }else if (secs >= 4 && secs < 7) {
+                if (secs == 4) {
+                    threeSecondTimerText.setVisibility(View.VISIBLE);
+                }
+                /* Display a 3 second countdown in the middle of the screen in big numbers*/
+                threeSecondTimerText.setText("" + (3 - (secs - 4)));
+                //currEvent.setText("3 SECOND COUNTDOWN");
+            } else if (secs == 7) {
+                threeSecondTimerText.setVisibility(View.GONE);
+                performTrialTiming();
+                currEvent.setText("RIGHT HAND TRIAL 1 of 5");
+                trialCounter++;
+                tapHearing();
+            }else if(secs == 17) {
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(false);
+            } else if (secs == 19) {
+                currEvent.setText("Done!");
+                hideArena();
+                displayCounter();
+            } else if (secs == 20) {
+                /* display 10 second timer*/
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(true);
+                performTrialTiming();
+                trialCounter++;;
+                currEvent.setText("RIGHT HAND TRIAL 2 of 5");
+                tapHearing();
+            }else if(secs == 30) {
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(false);
+            } else if (secs == 32) {
+                currEvent.setText("Done!");
+                hideArena();
+                displayCounter();
+            }else if (secs == 33) {
+                /* display 10 second timer*/
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(true);
+                performTrialTiming();
+                trialCounter++;;
+                currEvent.setText("RIGHT HAND TRIAL 3 of 5");
+                tapHearing();
+            }
+            else if (secs == 43) {
+                /* display tap count from left hand trial 1*/
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(false);
+            }else if (secs == 45) {
+
+                currEvent.setText("Done!");
+                hideArena();
+                displayCounter();
+            }
+
+            if(secs <= 48) {
+                mHandler.postDelayed(this, REFRESH_RATE);
+            } else {
+                if(stopped){
+                    startTime = System.currentTimeMillis() - elapsedTime;
+                }
+                else{
+                    startTime = System.currentTimeMillis();
+                }
+                mHandler.removeCallbacks(startTimer4);
+                mHandler.postDelayed(startTimer4, 0);
+
+            }
+        }
+    };
+    private Runnable startTimer4 = new Runnable() {
+        public void run() {
+
+            tempBtn.setVisibility(View.GONE);
+
+            elapsedTime = System.currentTimeMillis() - startTime;
+            updateTimer(elapsedTime);
+
+            if(secs ==0) {
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(true);
+                performTrialTiming();
+                trialCounter++;;
+                currEvent.setText("RIGHT HAND TRIAL 4 of 5");
+                tapHearing();
+            }else if(secs == 10) {
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(false);
+            } else if (secs == 12) {
+                currEvent.setText("Done!");
+                hideArena();
+                displayCounter();
+            } else if (secs == 15) {
+                /* display 10 second timer*/
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(true);
+                performTrialTiming();
+                trialCounter++;;
+                currEvent.setText("RIGHT HAND TRIAL 5 of 5");
+                tapHearing();
+            }else if(secs == 25) {
+                RelativeLayout allScreen = (RelativeLayout) findViewById(R.id.activity_timing);
+                allScreen.setClickable(false);
+            } else if (secs == 27) {
+                currEvent.setText("Done!");
+                hideArena();
+                displayCounter();
+            }
+            else if (secs > 30) {
+                currEvent.setText("Press Start Test to begin again or you can go to the home page.");
                 TextView counterDisplay = (TextView) findViewById(R.id.tapCounterTextView);
                 counterDisplay.setVisibility(View.INVISIBLE);
                 ((TextView)findViewById(R.id.timerTextView)).setText("00:00");
             }
 
-            if(secs <= 32) {
+            if(secs <= 30) {
                 mHandler.postDelayed(this, REFRESH_RATE);
             } else {
                 tempBtn.setVisibility(View.VISIBLE);
+                homePage.setVisibility(View.VISIBLE);
             }
         }
     };
+
+
+
+
 
     // initiates a trial; the entire screen is listening for taps
     private void tapHearing() {
