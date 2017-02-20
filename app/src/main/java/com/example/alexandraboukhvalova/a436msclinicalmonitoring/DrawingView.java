@@ -45,6 +45,7 @@ public class DrawingView extends View {
     private boolean erase=false;
     private Bitmap scaled_pic;
     private int score = 0;
+
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setupDrawing();

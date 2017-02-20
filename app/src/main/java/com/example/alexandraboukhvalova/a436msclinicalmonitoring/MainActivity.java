@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-
-                                Intent intent = new Intent(context, TappingActivity.class);
+                                //TODO make actual button for level activity
+                                Intent intent = new Intent(context, LevelActivity.class); //switched TappingActivity for levelActivity
                                 startActivity(intent);
                             }
                         }, 50);
