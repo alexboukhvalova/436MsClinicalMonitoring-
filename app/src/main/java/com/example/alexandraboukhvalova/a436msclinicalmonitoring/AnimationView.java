@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -19,13 +20,19 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.widget.TextView;
+
 
 
 /**
  * Created by jonf on 12/6/2016.
  */
 
-public class AnimationView extends View {
+public class AnimationView extends View implements SensorEventListener {
     public static float MAX_VELOCITY = 100;
     public static float DEFAULT_BALL_RADIUS = 25;
     private static final Random _random = new Random();
@@ -44,6 +51,12 @@ public class AnimationView extends View {
 
     //https://developer.android.com/reference/java/util/Timer.html
     private Timer _timer = new Timer("AnimationView");
+
+    private SensorManager mgr;
+    private Sensor gyro;
+    private TextView text;
+
+    Context context;
 
     public AnimationView(Context context) {
         super(context);
@@ -71,12 +84,38 @@ public class AnimationView extends View {
         _paintText.setColor(Color.BLACK);
         _paintText.setTextSize(40f);
 
+        this.context = context;
+        mgr = (SensorManager) context.getSystemService(context.SENSOR_SERVICE);
+        gyro = mgr.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        text = (TextView) findViewById(R.id.text);
+
 
         // https://developer.android.com/referecance/java/util/Timer.html#scheduleAtFixedRate(java.util.TimerTask, long, long)
         // 60 fps will have period of 16.67
         // 40 fps will have period of 25
         long periodInMillis = 1000 / _desiredFramesPerSecond;
         _timer.schedule(new AnimationTimerTask(this), 0, periodInMillis);
+    }
+
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    public void onSensorChanged(SensorEvent event) {
+        if (this.balls.size() != 0) {
+            for(Ball ball : this.balls) {
+                Log.d("sensor", "1 " + event.values[1] + " 2 " + event.values[2]);
+
+                ball.xVelocity = event.values[1];
+                ball.yVelocity = event.values[2];
+            }
+        }
+
+        String msg = "0: " + event.values[0] + "\n" +
+                "1: " + event.values[1] + "\n" +
+                "2: " + event.values[2] + "\n";
+        text.setText(msg);
+        text.invalidate();
     }
 
     @Override
