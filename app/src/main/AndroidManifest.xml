@@ -22,7 +22,7 @@
         <activity android:name=".TimingActivity" />
         <activity android:name=".SpiralActivity" />
         <activity android:name=".DrawingView" />
-        <activity android:name=".LevelActivity" />
+        <activity android:name=".LevelActivity"  android:screenOrientation="portrait"/>
         <activity android:name=".AnimationView"></activity>
     </application>
 
