@@ -1,6 +1,9 @@
 package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,8 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TimingActivity extends AppCompatActivity {
 
@@ -24,6 +27,7 @@ public class TimingActivity extends AppCompatActivity {
     private long elapsedTime;
     private final int REFRESH_RATE = 100;
     private String minutes,seconds;
+    private String hand;
     private long secs,mins,hrs,msecs;
     private boolean stopped = false;
     private TextView threeSecondTimerText;
@@ -142,6 +146,7 @@ public class TimingActivity extends AppCompatActivity {
                 /* Brian display first 10 second timer*/
                 performTrialTiming();
                 currEvent.setText("LEFT HAND TRIAL 1");
+                hand = "Left";
                 resetCounter();
                 tapHearing();
             }else if(secs == 17) {
@@ -152,6 +157,7 @@ public class TimingActivity extends AppCompatActivity {
                 //((TextView)findViewById(R.id.timerTextView)).setVisibility(View.INVISIBLE);
                 currEvent.setText("Done!");
                 hideArena();
+                saveToDB();
                 displayCounter();
             } else if (secs == 20) {
                 /* display 10 second timer*/
@@ -159,6 +165,7 @@ public class TimingActivity extends AppCompatActivity {
                 allScreen.setClickable(true);
                 performTrialTiming();
                 currEvent.setText("LEFT HAND TRIAL 2");
+                hand = "Left";
                 resetCounter();
                 tapHearing();
             } else if (secs == 31) {
@@ -167,6 +174,7 @@ public class TimingActivity extends AppCompatActivity {
                 allScreen.setClickable(false);
                 currEvent.setText("Done!");
                 hideArena();
+                saveToDB();
                 displayCounter();
             } else if (secs > 33) {
                 currEvent.setText("Press Start Test to begin again.");
@@ -211,5 +219,20 @@ public class TimingActivity extends AppCompatActivity {
 
     public void resetCounter() {
         counter[0] = 0;
+    }
+
+    private void saveToDB() {
+        SQLiteDatabase database = new ResultsDBHelper(this).getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(ResultsDBHelper.RESULTS_COLUMN_DATE, new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
+        values.put(ResultsDBHelper.RESULTS_COLUMN_TYPE, "Tap");
+        values.put(ResultsDBHelper.RESULTS_COLUMN_HAND, hand);
+        values.put(ResultsDBHelper.RESULTS_COLUMN_COUNT, counter[0]);
+        long newRowId = database.insert(ResultsDBHelper.RESULTS_TABLE_NAME, null, values);
+    }
+
+    private void readFromDB() {
+        // fill this in with queries we may want to run on our db
     }
 }
