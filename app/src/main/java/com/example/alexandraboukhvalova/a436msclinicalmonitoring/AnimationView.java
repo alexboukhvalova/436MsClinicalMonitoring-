@@ -1,5 +1,11 @@
 package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -16,6 +22,8 @@ import android.view.View;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,8 +32,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import static android.content.Context.SENSOR_SERVICE;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
 
 
 /**
@@ -34,7 +44,7 @@ import android.widget.TextView;
 
 public class AnimationView extends View implements SensorEventListener {
     public static float MAX_VELOCITY = 100;
-    public static float DEFAULT_BALL_RADIUS = 25;
+    public static float DEFAULT_BALL_RADIUS = 100;
     private static final Random _random = new Random();
 
     private Paint _paintText = new Paint();
@@ -42,7 +52,12 @@ public class AnimationView extends View implements SensorEventListener {
 
     private int _desiredFramesPerSecond = 40;
 
-    public ArrayList<Ball> balls = new ArrayList<Ball>();
+    private ArrayList<Ball> balls = new ArrayList<Ball>();
+    private ArrayList<Point> points = new ArrayList<Point>();
+
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    //private TextView text;
 
     // This is for measuring frame rate, you can ignore
     private float _actualFramesPerSecond = -1;
@@ -51,12 +66,14 @@ public class AnimationView extends View implements SensorEventListener {
 
     //https://developer.android.com/reference/java/util/Timer.html
     private Timer _timer = new Timer("AnimationView");
+    private long lastTimeAccelSensorChangedInMs = -1;
+    private float[] gravity = new float[3];
+    private float[] linear_acceleration = new float[3];
 
-    private SensorManager mgr;
-    private Sensor gyro;
-    private TextView text;
+    private Bitmap scaled_pic;
+    private Point median;
 
-    Context context;
+    //Context context;
 
     public AnimationView(Context context) {
         super(context);
@@ -76,6 +93,15 @@ public class AnimationView extends View implements SensorEventListener {
         setBackgroundResource(R.drawable.bullseye);
     }
 
+    /*Ensure that the view is always a square*/
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        int size = Math.min(getMeasuredWidth(),getMeasuredHeight());
+        setMeasuredDimension(size, size);
+    }
+
     public void init(Context context, AttributeSet attrs, int defStyleAttr) {
         setBackgroundResource(R.drawable.bullseye);
         _paintTrail.setStyle(Paint.Style.FILL);
@@ -84,39 +110,25 @@ public class AnimationView extends View implements SensorEventListener {
         _paintText.setColor(Color.BLACK);
         _paintText.setTextSize(40f);
 
-        this.context = context;
-        mgr = (SensorManager) context.getSystemService(context.SENSOR_SERVICE);
-        gyro = mgr.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        text = (TextView) findViewById(R.id.text);
+        //this.context = context;
+        mSensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+
+        //text = (TextView) findViewById(R.id.text);
 
 
         // https://developer.android.com/referecance/java/util/Timer.html#scheduleAtFixedRate(java.util.TimerTask, long, long)
         // 60 fps will have period of 16.67
         // 40 fps will have period of 25
-        long periodInMillis = 1000 / _desiredFramesPerSecond;
-        _timer.schedule(new AnimationTimerTask(this), 0, periodInMillis);
+        //long periodInMillis = 1000 / _desiredFramesPerSecond;
+        //_timer.schedule(new AnimationTimerTask(this), 0, periodInMillis);
     }
 
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-    }
 
-    public void onSensorChanged(SensorEvent event) {
-        if (this.balls.size() != 0) {
-            for(Ball ball : this.balls) {
-                Log.d("sensor", "1 " + event.values[1] + " 2 " + event.values[2]);
 
-                ball.xVelocity = event.values[1];
-                ball.yVelocity = event.values[2];
-            }
-        }
-
-        String msg = "0: " + event.values[0] + "\n" +
-                "1: " + event.values[1] + "\n" +
-                "2: " + event.values[2] + "\n";
-        text.setText(msg);
-        text.invalidate();
-    }
 
     @Override
     public void onDraw(Canvas canvas) {
@@ -133,6 +145,9 @@ public class AnimationView extends View implements SensorEventListener {
                 canvas.drawCircle(ball.xLocation, ball.yLocation, ball.radius, ball.paint);
             }
         }
+
+        canvas.drawCircle(3*getWidth()/8,3*getWidth()/8,40,_paintText);
+        canvas.drawCircle(getWidth()/4,getWidth()/4,40,_paintText);
 
         // The code below is about measuring and printing out fps calculations. You can ignore
         long endTime = SystemClock.elapsedRealtime();
@@ -153,16 +168,22 @@ public class AnimationView extends View implements SensorEventListener {
         float curTouchX = motionEvent.getX();
         float curTouchY = motionEvent.getY();
 
+        scaled_pic = prepareToMeasure();
+
         switch(motionEvent.getAction()){
             case MotionEvent.ACTION_DOWN:
-                float randomXVelocity = _random.nextFloat() * MAX_VELOCITY;
-                float randomYVelocity = randomXVelocity;
+                /*float randomXVelocity = _random.nextFloat() * MAX_VELOCITY;
+                float randomYVelocity = randomXVelocity;*/
 
                 //setup random direction
-                randomXVelocity = _random.nextFloat() < 0.5f ? randomXVelocity : -1 * randomXVelocity;
-                randomYVelocity = _random.nextFloat() < 0.5f ? randomYVelocity : -1 * randomYVelocity;
+                //randomXVelocity = _random.nextFloat() < 0.5f ? randomXVelocity : -1 * randomXVelocity;
+                //randomYVelocity = _random.nextFloat() < 0.5f ? randomYVelocity : -1 * randomYVelocity;
 
-                Ball ball = new Ball(DEFAULT_BALL_RADIUS, curTouchX, curTouchY, randomXVelocity, randomYVelocity, getRandomOpaqueColor());
+                float randomXVelocity = 0;
+                float randomYVelocity = 0;
+
+                Ball ball = new Ball(DEFAULT_BALL_RADIUS, curTouchX, curTouchY, randomXVelocity, randomYVelocity, Color.argb(255, 10, 10, 10));
+                points.add(new Point((int) curTouchX, (int)curTouchY));
                 synchronized (this.balls) {
                     if (this.balls.size() < 1) {
                         this.balls.add(ball);
@@ -175,16 +196,151 @@ public class AnimationView extends View implements SensorEventListener {
             case MotionEvent.ACTION_UP:
                 break;
         }
-
         return true;
     }
 
-    protected int getRandomOpaqueColor(){
-        int r = _random.nextInt(255);
-        int g = _random.nextInt(255);
-        int b = _random.nextInt(255);
-        //int b = 50 + (int)(_random.nextFloat() * (255-50));
-        return Color.argb(255, r, g, b);
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        switch (event.sensor.getType()){
+            case Sensor.TYPE_ACCELEROMETER:
+                //Log.i("MOVE","MOVING");
+                //Log.d("sensor", "1 " + event.values[1] + " 2 " + event.values[2]);
+                if(lastTimeAccelSensorChangedInMs == -1) {
+                    lastTimeAccelSensorChangedInMs = SystemClock.currentThreadTimeMillis();
+                }
+                // In this example, alpha is calculated as t / (t + dT),
+                // where t is the low-pass filter's time-constant and
+                // dT is the event delivery rate.
+
+                final float alpha = 0.8f;
+
+                // Isolate the force of gravity with the low-pass filter.
+                gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
+                gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
+                gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+
+                // Remove the gravity contribution with the high-pass filter.
+                linear_acceleration[0] = event.values[0] - gravity[0];
+                linear_acceleration[1] = event.values[1] - gravity[1];
+                linear_acceleration[2] = event.values[2] - gravity[2];
+
+                for(Ball b : balls){
+                    b.xVelocity -= linear_acceleration[0];
+
+                    b.yVelocity += linear_acceleration[1];
+                    if(b.xLocation + b.xVelocity > 0 && b.xLocation + b.xVelocity < getWidth()) {
+                        b.xLocation += b.xVelocity*(SystemClock.currentThreadTimeMillis()-lastTimeAccelSensorChangedInMs)/10f;
+                    }
+                    if(b.yLocation + b.yVelocity > 0 && b.yLocation + b.yVelocity < getHeight()) {
+                        b.yLocation += b.yVelocity*(SystemClock.currentThreadTimeMillis() - lastTimeAccelSensorChangedInMs)/10f;
+                    }
+                    points.add(new Point((int)b.xLocation, (int)b.yLocation));
+
+
+                    //TODO: instead of calling this all the time, call it after the trial is done.
+                    score();
+
+                }
+                lastTimeAccelSensorChangedInMs = SystemClock.currentThreadTimeMillis();
+                break;
+        }
+        invalidate();
+    }
+
+    private void score() {
+        double[] diffs = new double[points.size()-1];
+        double avg = 0;
+        int count = 0;
+        for(int i = 1; i < points.size(); i++){
+            int x1 = points.get(i).x;
+            int x2 = points.get(i-1).x;
+
+            int y1 = points.get(i).y;
+            int y2 = points.get(i-1).y;
+            avg += Math.sqrt(Math.pow(x1-x2,2) + Math.pow(y1-y2,2));
+            count++;
+        }
+        TextView textView;
+        Activity parentActivity = (Activity)this.getContext();
+        if (parentActivity != null) {
+            textView = (TextView) parentActivity.findViewById(R.id.levelScore);
+            textView.setVisibility(View.VISIBLE);
+            textView.setText("SCORE: " + Math.round((avg/count)*100));
+        }
+        /*
+        Collections.sort( points, new Comparator<Point>() {
+            public int compare(Point x1, Point x2) {
+                int result = Double.compare(x1.x, x2.x);
+                if ( result == 0 ) {
+                    result = Double.compare(x1.y, x2.y);
+                }
+                return result;
+            }
+        });
+        int len = points.size();
+        int x,y;
+        if(len % 2 == 1){
+            x = points.get(len/2).x;
+            y = points.get(len/2).y;
+
+        } else {
+            int x1 = points.get((int)Math.floor(len/2.0)).x;
+            int x2 = points.get((int)Math.ceil(len/2.0)).x;
+            int y1 = points.get((int)Math.floor(len/2.0)).y;
+            int y2 = points.get((int)Math.ceil(len/2.0)).y;
+            x = (x1+x2)/2;
+            y = (y1+y2)/2;
+        }
+        median = new Point(x,y);
+        //Log.i("Median",x+" "+y);
+        //Log.i("Center",getWidth()/2+" "+getWidth()/2);
+        String grade = "-";
+
+        double dist = Math.sqrt(Math.pow(x-getWidth(),2) + Math.pow(y-getWidth(),2));
+        Log.i("Location",dist + " " +3*getWidth()/8 + " " + getWidth()/4+" ");
+        if(dist < 3*getWidth()/8){
+            Log.i("Location","blue");
+            grade = "A";
+        } else if(dist < getWidth()/4){
+            Log.i("Location","red");
+            grade = "B";
+        } else {
+            grade = "C";
+        }
+        TextView textView;
+        Activity parentActivity = (Activity)this.getContext();
+        if (parentActivity != null) {
+            textView = (TextView) parentActivity.findViewById(R.id.levelScore);
+            textView.setVisibility(View.VISIBLE);
+            textView.setText("SCORE: " + grade);
+        }*/
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    private Bitmap prepareToMeasure(){
+
+        Bitmap ic = drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.ic_noun_745038_cc));
+        Bitmap icon = Bitmap.createScaledBitmap(ic,this.getWidth(),this.getHeight(),false);
+
+        return icon;
+    }
+
+    private Bitmap drawableToBitmap (Drawable drawable) {
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
     }
 
     class Ball{
@@ -223,6 +379,7 @@ public class AnimationView extends View implements SensorEventListener {
     }
 
     //TimerTask: https://developer.android.com/reference/java/util/TimerTask.html
+    /*
     class AnimationTimerTask extends TimerTask {
 
         private AnimationView _animationView;
@@ -267,4 +424,5 @@ public class AnimationView extends View implements SensorEventListener {
             _lastTimeInMs = curTimeInMs;
         }
     }
+    */
 }
