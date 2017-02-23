@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button tappingActivityBtn;
     Button spiralActivityBtn;
+    Button levelActivityBtn;
     Button resultsActivityBtn;
 
 
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         tappingActivityBtn = (Button) findViewById(R.id.TappingActivityButton);
         spiralActivityBtn = (Button) findViewById(R.id.SpiralActivityButton);
         resultsActivityBtn = (Button) findViewById(R.id.ResultsActivityButton);
+        levelActivityBtn = (Button) findViewById(R.id.LevelActivityButton);
 
         tappingActivityBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -105,6 +107,41 @@ public class MainActivity extends AppCompatActivity {
                             public void run() {
                                 Intent intent = new Intent(context, SpiralActivity.class);
                                 startActivity(intent);
+                            }
+                        }, 50);
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+
+
+
+            }
+
+
+        });
+
+        levelActivityBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Level Test Instructions");
+                builder.setMessage("When the countdown completes, use your LEFT hand to keep the ball" +
+                        " in the middle of the bullseye. After the first round ends, repeat this " +
+                        "process with your RIGHT hand.");
+                builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // fill in correct class
+                           //     Intent intent = new Intent(context, .class);
+                           //     startActivity(intent);
                             }
                         }, 50);
                     }
