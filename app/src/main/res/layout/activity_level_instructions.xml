@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_level_instructions"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.alexandraboukhvalova.a436msclinicalmonitoring.LevelInstructions">
+
+
+    <TextView
+        android:id="@+id/textView1"
+        android:textSize="15pt"
+        android:text="When the countdown completes, use your LEFT hand to keep the ball in the center of the bullseys that appears on the screen. After the first round ends, repeat this process with your RIGHT hand."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
