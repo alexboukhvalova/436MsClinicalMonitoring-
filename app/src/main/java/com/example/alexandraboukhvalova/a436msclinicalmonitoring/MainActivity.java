@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.os.*;
-
+import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -57,28 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Tap Test Instructions");
-                builder.setMessage("When the countdown completes, use your LEFT hand to tap the box" +
-                        " as many times as possible within 10 seconds. After the first round ends, repeat this " +
-                        "process with your RIGHT hand.");
-                builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, close
-                        // current activity
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                Intent intent = new Intent(context, TappingActivity.class);
-                                startActivity(intent);
-                            }
-                        }, 50);
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+                Intent intent = new Intent(context, instruction.class);
+                startActivity(intent);
 
 
 
@@ -92,27 +72,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
+                Intent intent = new Intent(context, spiral_instruction.class);
+                startActivity(intent);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Spiral Test Instructions");
-                builder.setMessage("When the countdown completes, use your LEFT hand to trace the spiral" +
-                        " that appears on the screen. After the first round ends, repeat this " +
-                        "process with your RIGHT hand.");
-                builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, close
-                        // current activity
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(context, SpiralActivity.class);
-                                startActivity(intent);
-                            }
-                        }, 50);
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+
 
 
 
@@ -127,28 +90,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Level Test Instructions");
-                builder.setMessage("When the countdown completes, use your LEFT hand to keep the ball" +
-                        " in the center of the bullseys that appears on the screen. After the first round ends, repeat this " +
-                        "process with your RIGHT hand.");
-                builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, close
-                        // current activity
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(context, LevelActivity.class);
-                                startActivity(intent);
-                            }
-                        }, 50);
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-
-
+                Intent intent = new Intent(context, LevelInstructions.class);
+                startActivity(intent);
 
 
             }
