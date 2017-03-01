@@ -22,8 +22,12 @@
         <activity android:name=".TimingActivity" />
         <activity android:name=".SpiralActivity" />
         <activity android:name=".DrawingView" />
-        <activity android:name=".LevelActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".AnimationView"></activity>
+        <activity
+            android:name=".LevelActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".AnimationView" />
+        <activity android:name=".BubbleActivity"
+            android:exported="true"></activity>
     </application>
 
 </manifest>

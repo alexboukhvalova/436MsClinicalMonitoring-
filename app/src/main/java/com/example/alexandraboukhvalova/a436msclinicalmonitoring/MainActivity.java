@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     Button spiralActivityBtn;
     Button resultsActivityBtn;
     Button levelActivityBtn;
+    Button bubbleActivityBtn;
 
 
     @Override
@@ -52,12 +53,11 @@ public class MainActivity extends AppCompatActivity {
         spiralActivityBtn = (Button) findViewById(R.id.SpiralActivityButton);
         resultsActivityBtn = (Button) findViewById(R.id.ResultsActivityButton);
         levelActivityBtn = (Button) findViewById(R.id.LevelActivityButton);
+        bubbleActivityBtn = (Button) findViewById(R.id.BubbleActivityButton);
 
         tappingActivityBtn.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Tap Test Instructions");
                 builder.setMessage("When the countdown completes, use your LEFT hand to tap the box" +
@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-
                                 Intent intent = new Intent(context, TappingActivity.class);
                                 startActivity(intent);
                             }
@@ -79,20 +78,12 @@ public class MainActivity extends AppCompatActivity {
                 });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
-
-
-
-
             }
-
-
         });
 
         spiralActivityBtn.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Spiral Test Instructions");
                 builder.setMessage("When the countdown completes, use your LEFT hand to trace the spiral" +
@@ -113,20 +104,12 @@ public class MainActivity extends AppCompatActivity {
                 });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
-
-
-
-
             }
-
-
         });
 
         levelActivityBtn.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Level Test Instructions");
                 builder.setMessage("When the countdown completes, use your LEFT hand to keep the ball" +
@@ -147,20 +130,40 @@ public class MainActivity extends AppCompatActivity {
                 });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
-
-
-
-
             }
-
-
         });
 
-        resultsActivityBtn.setOnClickListener(new View.OnClickListener() {
-
+        // copied directly from level activity button above
+        bubbleActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Level Test Instructions");
+                builder.setMessage("When the countdown completes, use your LEFT hand to keep the ball" +
+                        " in the center of the bullseys that appears on the screen. After the first round ends, repeat this " +
+                        "process with your RIGHT hand.");
+                builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(context, BubbleActivity.class);
+                                startActivity(intent);
+                            }
+                        }, 50);
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
 
+
+        resultsActivityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Test Results");
                 builder.setMessage("This page contains the results for the most recent set of tests");
@@ -181,13 +184,7 @@ public class MainActivity extends AppCompatActivity {
                 });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
-
-
-
-
             }
-
-
         });
 
     }
