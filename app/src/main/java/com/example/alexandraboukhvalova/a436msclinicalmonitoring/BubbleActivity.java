@@ -3,7 +3,6 @@ package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -25,7 +24,7 @@ public class BubbleActivity extends Activity {
 
     Button bubble;
     Button startTrial;
-    Button b;
+    Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,28 +69,27 @@ public class BubbleActivity extends Activity {
 
         // the max number of trials can be changed here
         if (trialNum < 10) {
-            b = (Button) findViewById(R.id.bubble);
+            btn = (Button) findViewById(R.id.bubble);
 
             // get screen dimensions
-            RelativeLayout.LayoutParams scene = (RelativeLayout.LayoutParams) b.getLayoutParams();
+            RelativeLayout.LayoutParams scene = (RelativeLayout.LayoutParams) btn.getLayoutParams();
             DisplayMetrics metrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
             // set new location for bubble
-            scene.leftMargin = b.getWidth()
-                    + new Random().nextInt(metrics.widthPixels - 5 * b.getWidth());
-            scene.topMargin = b.getHeight()
-                    + new Random().nextInt(metrics.heightPixels - 3 * b.getHeight());
-            b.setLayoutParams(scene);
+            scene.leftMargin = btn.getWidth()
+                    + new Random().nextInt(metrics.widthPixels - 5 * btn.getWidth());
+            scene.topMargin = btn.getHeight()
+                    + new Random().nextInt(metrics.heightPixels - 3 * btn.getHeight());
+            btn.setLayoutParams(scene);
 
             // save time of appearance as time of birth
             // increment trialNum
-
             trialNum++;
 
             timeOfBirth = System.nanoTime();
 
-            b.postDelayed(new Runnable() {
+            btn.postDelayed(new Runnable() {
                 public void run() {
                     moveBubble();
                 }
@@ -99,55 +97,47 @@ public class BubbleActivity extends Activity {
 
         }
         if (trialNum == 10) {
-            int i=0;
             double result = 0.0;
             DecimalFormat precision = new DecimalFormat("0.00");
-
 
             for (Long s : lifespans) {
                 result=result+(s/1000000000.0);
             }
 
             if(passTrial>0)
-            result=result/passTrial;
+                result=result/passTrial;
             else
-            result=0.0;
+                result=0.0;
 
-
-
-            b.setVisibility(View.INVISIBLE);
+            btn.setVisibility(View.INVISIBLE);
             TextView textView=(TextView) findViewById(R.id.showResult);
-            textView.setText("you hit "+passTrial+"\n"+
-                    "you take "+precision.format(result)+" a second to respond in average for the pass once");
+            textView.setText("You hit " + passTrial+"\n"+
+                    "Your average tap response time was " + precision.format(result) + " seconds");
 
             textView.setTextSize(25);
-
             textView.setVisibility(View.VISIBLE);
-
-
         }
     }
 
     public void initialLocation() {
-         b = (Button) findViewById(R.id.bubble);
+        btn = (Button) findViewById(R.id.bubble);
 
         // get screen dimensions
-        RelativeLayout.LayoutParams scene = (RelativeLayout.LayoutParams) b.getLayoutParams();
+        RelativeLayout.LayoutParams scene = (RelativeLayout.LayoutParams) btn.getLayoutParams();
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         // set new location for bubble
-        scene.leftMargin = b.getWidth()
-                + new Random().nextInt(metrics.widthPixels - 3 * b.getWidth());
-        scene.topMargin = b.getHeight()
-                + new Random().nextInt(metrics.heightPixels - 3 * b.getHeight());
-        b.setLayoutParams(scene);
+        scene.leftMargin = btn.getWidth()
+                + new Random().nextInt(metrics.widthPixels - 3 * btn.getWidth());
+        scene.topMargin = btn.getHeight()
+                + new Random().nextInt(metrics.heightPixels - 3 * btn.getHeight());
+        btn.setLayoutParams(scene);
 
         // save time of appearance as time of birth
-
         timeOfBirth =  System.nanoTime();
 
-        b.postDelayed(new Runnable() {
+        btn.postDelayed(new Runnable() {
             public void run() {
                 moveBubble();
             }

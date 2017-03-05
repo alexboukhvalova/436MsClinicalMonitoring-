@@ -32,7 +32,7 @@
         android:layout_weight=".33">
 
         <Button
-            android:text="bubble"
+            android:text="Bubble"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
