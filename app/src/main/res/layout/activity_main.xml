@@ -32,6 +32,25 @@
         android:layout_weight=".33">
 
         <Button
+            android:text="bubble"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="17dp"
+            android:id="@+id/BubbleActivityButton"
+            tools:layout_width="match_parent"
+            android:textSize="24sp"
+            android:textColor="@android:color/black"
+            android:background="@android:color/transparent" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".33">
+
+        <Button
             android:text="Tapping"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

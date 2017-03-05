@@ -138,10 +138,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Level Test Instructions");
-                builder.setMessage("When the countdown completes, use your LEFT hand to keep the ball" +
-                        " in the center of the bullseys that appears on the screen. After the first round ends, repeat this " +
-                        "process with your RIGHT hand.");
+                builder.setTitle("Bubble Test Instructions");
+                builder.setMessage("try to hit as many bubble as you can once the test start" );
                 builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         // if this button is clicked, close
