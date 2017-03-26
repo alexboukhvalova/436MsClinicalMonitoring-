@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     Button resultsActivityBtn;
     Button levelActivityBtn;
     Button bubbleActivityBtn;
+    Button armCurlActivityBtn;
 
 
     @Override
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         resultsActivityBtn = (Button) findViewById(R.id.ResultsActivityButton);
         levelActivityBtn = (Button) findViewById(R.id.LevelActivityButton);
         bubbleActivityBtn = (Button) findViewById(R.id.BubbleActivityButton);
+        armCurlActivityBtn = (Button) findViewById(R.id.ArmCurlActivityButton);
 
         tappingActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +150,31 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 Intent intent = new Intent(context, BubbleActivity.class);
+                                startActivity(intent);
+                            }
+                        }, 50);
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
+
+        armCurlActivityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Arm Curl Test Instructions");
+                builder.setMessage("Hold your arm straight out. After you hit start, tap your " +
+                        "shoulder and bring your arm back out at the same level ten times." );
+                builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(context, ArmCurlActivity.class);
                                 startActivity(intent);
                             }
                         }, 50);
