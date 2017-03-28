@@ -14,6 +14,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -25,9 +26,11 @@
             android:name=".LevelActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".AnimationView" />
-        <activity android:name=".BubbleActivity"
-            android:exported="true"></activity>
-        <activity android:name=".Sheets"/>
+        <activity
+            android:name=".BubbleActivity"
+            android:exported="true" />
+        <activity android:name=".ArmCurlActivity"></activity>
+        <activity android:name=".Sheets" />
     </application>
 
 </manifest>
