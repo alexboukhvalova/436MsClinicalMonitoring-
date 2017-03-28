@@ -1,6 +1,7 @@
 package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -9,7 +10,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Random;
 
 public class BubbleActivity extends Activity {
@@ -114,6 +118,9 @@ public class BubbleActivity extends Activity {
             textView.setText("You hit " + passTrial+"\n"+
                     "Your average tap response time was " + precision.format(result) + " seconds");
 
+            // Send data to GOOGLE SHEETS
+            sendToSheets(passTrial, result, Sheets.UpdateType.LH_POP.ordinal());
+
             textView.setTextSize(25);
             textView.setVisibility(View.VISIBLE);
         }
@@ -142,5 +149,24 @@ public class BubbleActivity extends Activity {
                 moveBubble();
             }
         }, 1000);
+    }
+
+    private void sendToSheets(int hits, double avg, int sheet) {
+        Intent sheets = new Intent(this, Sheets.class);
+        ArrayList<String> row = new ArrayList<>();
+        SimpleDateFormat dateFormat;
+        Calendar calendar = Calendar.getInstance();
+        dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
+
+        // Add components to row
+        row.add(Integer.toString(Sheets.teamID));
+        row.add(dateFormat.format(calendar.getTime()));
+        row.add("1");
+        row.add(Integer.toString(hits));
+        row.add(Double.toString(avg));
+
+        sheets.putStringArrayListExtra(Sheets.EXTRA_SHEETS, row);
+        sheets.putExtra(Sheets.EXTRA_TYPE, sheet);
+        startActivity(sheets);
     }
 }
