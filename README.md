@@ -6,6 +6,8 @@ Resources:
 https://www.mkyong.com/android/android-activity-from-one-screen-to-another-screen/  
 * Creating an alert dialog:  
 https://www.mkyong.com/android/android-alert-dialog-example/
+* Google Sheets API call library:
+https://github.com/cmsc436/sheets436
 
 Citation:
 * Spiral: spiral by Luke Peek from the Noun Project  
