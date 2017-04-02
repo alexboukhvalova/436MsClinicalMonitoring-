@@ -100,6 +100,7 @@ public class BubbleActivity extends Activity {
 
         }
         if (trialNum == 10) {
+            trialNum = 100;
             double result = 0.0;
             DecimalFormat precision = new DecimalFormat("0.00");
 
@@ -122,7 +123,6 @@ public class BubbleActivity extends Activity {
 
             Intent sheets = new Intent(this, Sheets.class);
             String myUserId = "t04p01";
-
             sheets.putExtra(Sheets.EXTRA_TYPE, Sheets.UpdateType.RH_POP.ordinal());
             sheets.putExtra(Sheets.EXTRA_USER, myUserId);
             sheets.putExtra(Sheets.EXTRA_VALUE, (float)result);
