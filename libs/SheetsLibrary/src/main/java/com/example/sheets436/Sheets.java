@@ -67,7 +67,7 @@ public class Sheets extends Activity
     final public static String EXTRA_USER = "com.example.sheets436.USER";
     final public static String EXTRA_TYPE = "com.example.sheets436.TYPE";
 
-    final private static String spreadsheetID = "1YvI3CjS4ZlZQDYi5PaiA7WGGcoCsZfLoSFM0IdvdbDU";
+    final private static String spreadsheetID = "1fth4ZlXP0wNCxU69CMWIrSOPU3GuhpcJnKB45YSDII8";
 
     public enum UpdateType {
         LH_TAP, RH_TAP,
@@ -399,6 +399,7 @@ public class Sheets extends Activity
                 writeToSheet();
                 return null;
             } catch (Exception e) {
+                e.printStackTrace();
                 cancel(true);
                 return null;
             }

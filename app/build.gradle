@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.example.alexandraboukhvalova.a436msclinicalmonitoring"
-        minSdkVersion 15
+        minSdkVersion 25
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -20,13 +20,13 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
-    compile 'com.google.android.gms:play-services-auth:10.2.1'
+    compile 'com.google.android.gms:play-services-auth:9.6.0'
     compile 'pub.devrel:easypermissions:0.2.1'
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
@@ -35,6 +35,7 @@ dependencies {
     compile('com.google.apis:google-api-services-sheets:v4-rev466-1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    compile project (':libs:SheetsLibrary')
+    compile project(':libs:SheetsLibrary')
     testCompile 'junit:junit:4.12'
+    compile project(':sheets436-v0.0.1-release')
 }

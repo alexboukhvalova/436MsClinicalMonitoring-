@@ -122,7 +122,7 @@ public class BubbleActivity extends Activity {
             textView.setVisibility(View.VISIBLE);
 
             Intent sheets = new Intent(this, Sheets.class);
-            String myUserId = "t04p01";
+            String myUserId = "T04P05";
             sheets.putExtra(Sheets.EXTRA_TYPE, Sheets.UpdateType.RH_POP.ordinal());
             sheets.putExtra(Sheets.EXTRA_USER, myUserId);
             sheets.putExtra(Sheets.EXTRA_VALUE, (float)result);
