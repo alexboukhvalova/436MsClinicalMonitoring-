@@ -20,6 +20,15 @@ android {
 }
 
 dependencies {
+    compile 'com.google.android.gms:play-services-auth:10.2.1'
+    compile('com.google.api-client:google-api-client-android:1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+        exclude group: 'com.google.code.findbugs'
+    }
+    compile('com.google.apis:google-api-services-sheets:v4-rev466-1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+        exclude group: 'com.google.code.findbugs'
+    }
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -35,7 +44,6 @@ dependencies {
     compile('com.google.apis:google-api-services-sheets:v4-rev466-1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    compile project(':libs:SheetsLibrary')
     testCompile 'junit:junit:4.12'
-    compile project(':sheets436-v0.0.1-release')
+    compile project(':sheets436-0.0.2-release')
 }
