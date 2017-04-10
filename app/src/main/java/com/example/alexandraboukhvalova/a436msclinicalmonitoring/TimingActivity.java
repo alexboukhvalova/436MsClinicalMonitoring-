@@ -1,6 +1,7 @@
 package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Environment;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,6 +38,9 @@ public class TimingActivity extends AppCompatActivity {
 
     // must be accessible from anonymous inner classes
     private final int[] counter = {0};
+
+    private int trail1 = 0;
+    private int trial2 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +181,7 @@ public class TimingActivity extends AppCompatActivity {
                 currEvent.setText("Done!");
                 hideArena();
                 saveToDB();
+
                 displayCounter();
             } else if (secs > 33) {
                 currEvent.setText("Press Start Test to begin again.");
@@ -186,6 +193,7 @@ public class TimingActivity extends AppCompatActivity {
             if(secs <= 32) {
                 mHandler.postDelayed(this, REFRESH_RATE);
             } else {
+
                 tempBtn.setVisibility(View.VISIBLE);
             }
         }
@@ -239,4 +247,14 @@ public class TimingActivity extends AppCompatActivity {
     private void readFromDB() {
         // fill this in with queries we may want to run on our db
     }
+
+//    public void startIntent(){
+//        Intent sheets = new Intent(this, Sheets.class);
+//        String myUserId = "t04p06";
+//        sheets.putExtra(Sheets.EXTRA_TYPE, Sheets.UpdateType.RH_CURL.ordinal());
+//        sheets.putExtra(Sheets.EXTRA_USER, myUserId);
+//        sheets.putExtra(Sheets.EXTRA_VALUE, (float)counter[0]);
+//
+//        startActivity(sheets);
+//    }
 }
