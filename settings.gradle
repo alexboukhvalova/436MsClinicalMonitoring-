@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':sheets436-0.0.2-release'
 include 'libs:SheetsLibrary'
