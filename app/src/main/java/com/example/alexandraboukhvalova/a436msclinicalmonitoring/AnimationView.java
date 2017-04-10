@@ -2,9 +2,11 @@ package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,10 +22,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -104,7 +109,7 @@ public class AnimationView extends View implements SensorEventListener {
 
     public void init(Context context, AttributeSet attrs, int defStyleAttr) {
         setBackgroundResource(R.drawable.bullseye);
-        _paintTrail.setStyle(Paint.Style.FILL);
+        _paintTrail.setStyle(Paint.Style.STROKE);
         _paintTrail.setAntiAlias(true);
 
         _paintText.setColor(Color.BLACK);
@@ -146,8 +151,8 @@ public class AnimationView extends View implements SensorEventListener {
             }
         }
 
-        canvas.drawCircle(3*getWidth()/8,3*getWidth()/8,40,_paintText);
-        canvas.drawCircle(getWidth()/4,getWidth()/4,40,_paintText);
+       // canvas.drawCircle(3*getWidth()/8,3*getWidth()/8,40,_paintText);
+       // canvas.drawCircle(getWidth()/4,getWidth()/4,40,_paintText);
 
         // The code below is about measuring and printing out fps calculations. You can ignore
         long endTime = SystemClock.elapsedRealtime();
@@ -157,9 +162,40 @@ public class AnimationView extends View implements SensorEventListener {
             _frameCnt = 0;
             _startTime = -1;
         }
+
+        Path path = new Path();
+        Paint paint = new Paint();
+        boolean first = true;
+
+
+        for(Point point : points){
+            if(first){
+                first = false;
+                path.moveTo(point.x, point.y);
+            }
+            else{
+                path.lineTo(point.x, point.y);
+
+            }
+        }
+
+
+
+
+        canvas.drawPath(path, paint);
+
         //MessageFormat: https://developer.android.com/reference/java/text/MessageFormat.html
-        canvas.drawText(MessageFormat.format("fps: {0,number,#.#}", _actualFramesPerSecond), 5, 40, _paintText);
+        //canvas.drawText(MessageFormat.format("fps: {0,number,#.#}", _actualFramesPerSecond), 5, 40, _paintText);
     }
+
+    public Bitmap screenShot(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),
+                view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
+    }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
@@ -265,7 +301,8 @@ public class AnimationView extends View implements SensorEventListener {
         if (parentActivity != null) {
             textView = (TextView) parentActivity.findViewById(R.id.levelScore);
             textView.setVisibility(View.VISIBLE);
-            textView.setText("SCORE: " + Math.round((avg/count)*100));
+            //textView.setText("SCORE: " + Math.round((avg/count)*100));
+            textView.setText("SCORE: " + points.size()/100);
         }
         /*
         Collections.sort( points, new Comparator<Point>() {

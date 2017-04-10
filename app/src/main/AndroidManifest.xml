@@ -29,7 +29,11 @@
         <activity
             android:name=".BubbleActivity"
             android:exported="true" />
-        <activity android:name=".ArmCurlActivity"></activity>
+        <activity android:name=".ArmCurlActivity" />
+        <activity
+            android:name=".SwayActivity"
+            android:exported="true" />
+        <activity android:name=".LevelPathView"></activity>
     </application>
 
 </manifest>
