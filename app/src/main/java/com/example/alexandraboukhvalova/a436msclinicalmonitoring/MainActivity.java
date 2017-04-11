@@ -165,8 +165,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Arm Curl Test Instructions");
-                builder.setMessage("Hold your arm straight out. After you hit start, tap your " +
-                        "shoulder and bring your arm back out at the same level ten times." );
+                builder.setMessage("Hold your right arm straight out. After you hit start, tap your " +
+                        "shoulder and bring your arm back out at the same level. Continue for 10 seconds." + "" +
+                        "The phone will vibrate indicating you to switch arms and repeat." +
+                        "The device will vibrate again after 10 seconds indicating you have completed the test");
                 builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         // if this button is clicked, close
