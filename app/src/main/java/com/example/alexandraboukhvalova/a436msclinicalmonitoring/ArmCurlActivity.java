@@ -10,6 +10,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -74,44 +75,72 @@ public class ArmCurlActivity extends Activity implements SensorEventListener, Sh
         startStopArmCurlBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                //mSensorManager.registerListener(ArmCurlActivity.this, mSensorAccel, SensorManager.SENSOR_DELAY_NORMAL);
-                //mSensorManager.registerListener(ArmCurlActivity.this, mSensorMag, SensorManager.SENSOR_DELAY_NORMAL);
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 mSensorManager.registerListener(ArmCurlActivity.this, mSensorProx, SensorManager.SENSOR_DELAY_NORMAL);
-                startStopArmCurlBtn.setClickable(false);
-                startStopArmCurlBtn.setText("Stop Test");
-                startStopArmCurlBtn.setAlpha(.5f);
+                startStopArmCurlBtn.setEnabled(false);
+                startStopArmCurlBtn.setText("Test is running for right hand...");
+                //startStopArmCurlBtn.setAlpha(.5f);
                 maxDist = mSensorProx.getMaximumRange();
 
                 //TODO start a timer
                 startTime = System.currentTimeMillis();
-                mHandler.removeCallbacks(startTimer);
-                mHandler.postDelayed(startTimer, 0);
+                mHandler.removeCallbacks(startRightTimer);
+                mHandler.postDelayed(startRightTimer, 0);
             }
         });
     }
 
-    private Runnable startTimer = new Runnable() {
+    private Runnable startRightTimer = new Runnable() {
         public void run() {
             elapsedTime = System.currentTimeMillis() - startTime;
             updateTimer(elapsedTime);
             if(secs < 10) {
                 mHandler.postDelayed(this, REFRESH_RATE);
             } else {
-                startStopArmCurlBtn.setClickable(true);
-                startStopArmCurlBtn.setText("Start Test");
-                startStopArmCurlBtn.setAlpha(1.0f);
-                sendToSheets();
+                //startStopArmCurlBtn.setEnabled(true);
+                startStopArmCurlBtn.setText("Starting test for left hand...");
+                //startStopArmCurlBtn.setAlpha(1.0f);
+                sendToSheets(true);
+                startTime = System.currentTimeMillis();
+                taps = 0;
+                mHandler.removeCallbacks(startRightTimer);
+                mHandler.postDelayed(startLeftTimer, 500);
             }
         }
     };
 
-    private void sendToSheets() {
+    private Runnable startLeftTimer = new Runnable() {
+        public void run() {
+            elapsedTime = System.currentTimeMillis() - startTime;
+            updateTimer(elapsedTime);
+            if(secs < 10) {
+                startStopArmCurlBtn.setText("Test is running for left hand...");
+                mHandler.postDelayed(this, REFRESH_RATE);
+            } else{
 
-        String userId = "t99p99";
-        //float data = 1.23f;
+                startStopArmCurlBtn.setText("Done Test!");
+                //startStopArmCurlBtn.setClickable(true);
+                //startStopArmCurlBtn.setText("Start Test");
+                //startStopArmCurlBtn.setAlpha(1.0f);
+                sendToSheets(false);
+            }
+        }
+    };
 
 
-        sheet.writeData(Sheets.TestType.RH_POP, userId, taps);
+    private void sendToSheets(boolean right) {
+
+        Sheets.TestType type;
+
+        if(right){
+            type = Sheets.TestType.RH_CURL;
+        } else {
+            type = Sheets.TestType.LH_CURL;
+        }
+        //TODO: CHANGE THIS TO MATCH YOURS
+        String userId = "t04p06";
+
+        sheet.writeData(type, userId, taps);
     }
 
     public void initializeViews() {

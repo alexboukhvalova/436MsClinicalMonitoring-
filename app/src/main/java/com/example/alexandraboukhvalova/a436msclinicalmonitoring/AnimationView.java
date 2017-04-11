@@ -1,10 +1,13 @@
 package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,9 +36,13 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import static android.content.Context.SENSOR_SERVICE;
+
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
+
+import edu.umd.cmsc436.sheets.Sheets;
 
 
 /**
@@ -74,6 +81,19 @@ public class AnimationView extends View implements SensorEventListener {
     private Point median;
 
     //Context context;
+    private float score;
+
+    private long secs,mins,hrs;
+    private String minutes,seconds;
+    private long startTime;
+    private long elapsedTime;
+    private Handler mHandler = new Handler();
+    private final int REFRESH_RATE = 100;
+
+    boolean done = false;
+
+    private TextView mTimer;
+    private TextView mStartButton;
 
     public AnimationView(Context context) {
         super(context);
@@ -116,29 +136,94 @@ public class AnimationView extends View implements SensorEventListener {
 
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
 
-        //text = (TextView) findViewById(R.id.text);
 
+    }
 
-        // https://developer.android.com/referecance/java/util/Timer.html#scheduleAtFixedRate(java.util.TimerTask, long, long)
-        // 60 fps will have period of 16.67
-        // 40 fps will have period of 25
-        //long periodInMillis = 1000 / _desiredFramesPerSecond;
-        //_timer.schedule(new AnimationTimerTask(this), 0, periodInMillis);
+    public void startTest(TextView timer, TextView startButton, int x, int y) {
+        startTime = System.currentTimeMillis();
+        mTimer = timer;
+        mStartButton = startButton;
+        mHandler.removeCallbacks(startTimer);
+        mHandler.postDelayed(startTimer, 0);
+        scaled_pic = prepareToMeasure();
+
+        AnimationView.Ball ball = new AnimationView.Ball(DEFAULT_BALL_RADIUS, x, y, 0, 0, Color.argb(255, 10, 10, 10));
+        points.add(new Point(x, y));
+        synchronized (this.balls) {
+            if (this.balls.size() < 1) {
+                this.balls.add(ball);
+            }
+
+        }
+        invalidate();
+
     }
 
 
+    private Runnable startTimer = new Runnable() {
+        public void run() {
+            elapsedTime = System.currentTimeMillis() - startTime;
+            updateTimer(elapsedTime);
+            if(secs < 10) {
+                mHandler.postDelayed(this, REFRESH_RATE);
+            } else {
+                done = true;
+                score();
+                //mStartButton.setEnabled(true);
+                mStartButton.setText("Done!");
+                ((LevelActivity) getContext()).sendToSheets(score);
+            }
+        }
+    };
 
+    private void updateTimer (float time){
+        secs = (long)(time/1000);
+        mins = (long)((time/1000)/60);
+        hrs = (long)(((time/1000)/60)/60);
 
+		/* Convert the seconds to String
+		 * and format to ensure it has
+		 * a leading zero when required
+		 */
+        secs = secs % 60;
+        seconds=String.valueOf(secs);
+        if(secs == 0){
+            seconds = "00";
+        }
+        if(secs <10 && secs > 0){
+            seconds = "0"+seconds;
+        }
+
+		/* Convert the minutes to String and format the String */
+
+        mins = mins % 60;
+        minutes=String.valueOf(mins);
+        if(mins == 0){
+            minutes = "00";
+        }
+        if(mins <10 && mins > 0){
+            minutes = "0"+minutes;
+        }
+
+		/* Setting the timer text to the elapsed time */
+        mTimer.setText(minutes + ":" + seconds);
+    }
 
     @Override
     public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if(done){
+            score();
+            mSensorManager.unregisterListener(this);
+        }
+
         // start time helps measure fps calculations
         if(_startTime == -1) {
             _startTime = SystemClock.elapsedRealtime();
         }
         _frameCnt++;
 
-        super.onDraw(canvas);
+
 
         synchronized (this.balls) {
             for(Ball ball : this.balls){
@@ -146,10 +231,10 @@ public class AnimationView extends View implements SensorEventListener {
             }
         }
 
-        canvas.drawCircle(3*getWidth()/8,3*getWidth()/8,40,_paintText);
-        canvas.drawCircle(getWidth()/4,getWidth()/4,40,_paintText);
+        //canvas.drawCircle(3*getWidth()/8,3*getWidth()/8,40,_paintText);
+        //canvas.drawCircle(getWidth()/4,getWidth()/4,40,_paintText);
 
-        // The code below is about measuring and printing out fps calculations. You can ignore
+        /* The code below is about measuring and printing out fps calculations. You can ignore
         long endTime = SystemClock.elapsedRealtime();
         long elapsedTimeInMs = endTime - _startTime;
         if(elapsedTimeInMs > 1000){
@@ -159,45 +244,10 @@ public class AnimationView extends View implements SensorEventListener {
         }
         //MessageFormat: https://developer.android.com/reference/java/text/MessageFormat.html
         canvas.drawText(MessageFormat.format("fps: {0,number,#.#}", _actualFramesPerSecond), 5, 40, _paintText);
+        */
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        long startTime = SystemClock.elapsedRealtime();
 
-        float curTouchX = motionEvent.getX();
-        float curTouchY = motionEvent.getY();
-
-        scaled_pic = prepareToMeasure();
-
-        switch(motionEvent.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                /*float randomXVelocity = _random.nextFloat() * MAX_VELOCITY;
-                float randomYVelocity = randomXVelocity;*/
-
-                //setup random direction
-                //randomXVelocity = _random.nextFloat() < 0.5f ? randomXVelocity : -1 * randomXVelocity;
-                //randomYVelocity = _random.nextFloat() < 0.5f ? randomYVelocity : -1 * randomYVelocity;
-
-                float randomXVelocity = 0;
-                float randomYVelocity = 0;
-
-                Ball ball = new Ball(DEFAULT_BALL_RADIUS, curTouchX, curTouchY, randomXVelocity, randomYVelocity, Color.argb(255, 10, 10, 10));
-                points.add(new Point((int) curTouchX, (int)curTouchY));
-                synchronized (this.balls) {
-                    if (this.balls.size() < 1) {
-                        this.balls.add(ball);
-                    }
-
-                }
-
-            case MotionEvent.ACTION_MOVE:
-                break;
-            case MotionEvent.ACTION_UP:
-                break;
-        }
-        return true;
-    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -238,7 +288,7 @@ public class AnimationView extends View implements SensorEventListener {
 
 
                     //TODO: instead of calling this all the time, call it after the trial is done.
-                    score();
+
 
                 }
                 lastTimeAccelSensorChangedInMs = SystemClock.currentThreadTimeMillis();
@@ -248,7 +298,7 @@ public class AnimationView extends View implements SensorEventListener {
     }
 
     private void score() {
-        double[] diffs = new double[points.size()-1];
+        //double[] diffs = new double[points.size()-1];
         double avg = 0;
         int count = 0;
         for(int i = 1; i < points.size(); i++){
@@ -260,59 +310,14 @@ public class AnimationView extends View implements SensorEventListener {
             avg += Math.sqrt(Math.pow(x1-x2,2) + Math.pow(y1-y2,2));
             count++;
         }
-        TextView textView;
+        score = Math.round((avg/count)*100);
+        /*TextView textView;
         Activity parentActivity = (Activity)this.getContext();
+
         if (parentActivity != null) {
             textView = (TextView) parentActivity.findViewById(R.id.levelScore);
             textView.setVisibility(View.VISIBLE);
             textView.setText("SCORE: " + Math.round((avg/count)*100));
-        }
-        /*
-        Collections.sort( points, new Comparator<Point>() {
-            public int compare(Point x1, Point x2) {
-                int result = Double.compare(x1.x, x2.x);
-                if ( result == 0 ) {
-                    result = Double.compare(x1.y, x2.y);
-                }
-                return result;
-            }
-        });
-        int len = points.size();
-        int x,y;
-        if(len % 2 == 1){
-            x = points.get(len/2).x;
-            y = points.get(len/2).y;
-
-        } else {
-            int x1 = points.get((int)Math.floor(len/2.0)).x;
-            int x2 = points.get((int)Math.ceil(len/2.0)).x;
-            int y1 = points.get((int)Math.floor(len/2.0)).y;
-            int y2 = points.get((int)Math.ceil(len/2.0)).y;
-            x = (x1+x2)/2;
-            y = (y1+y2)/2;
-        }
-        median = new Point(x,y);
-        //Log.i("Median",x+" "+y);
-        //Log.i("Center",getWidth()/2+" "+getWidth()/2);
-        String grade = "-";
-
-        double dist = Math.sqrt(Math.pow(x-getWidth(),2) + Math.pow(y-getWidth(),2));
-        Log.i("Location",dist + " " +3*getWidth()/8 + " " + getWidth()/4+" ");
-        if(dist < 3*getWidth()/8){
-            Log.i("Location","blue");
-            grade = "A";
-        } else if(dist < getWidth()/4){
-            Log.i("Location","red");
-            grade = "B";
-        } else {
-            grade = "C";
-        }
-        TextView textView;
-        Activity parentActivity = (Activity)this.getContext();
-        if (parentActivity != null) {
-            textView = (TextView) parentActivity.findViewById(R.id.levelScore);
-            textView.setVisibility(View.VISIBLE);
-            textView.setText("SCORE: " + grade);
         }*/
     }
 
@@ -320,6 +325,7 @@ public class AnimationView extends View implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+
 
     private Bitmap prepareToMeasure(){
 
@@ -342,6 +348,9 @@ public class AnimationView extends View implements SensorEventListener {
 
         return bitmap;
     }
+
+
+
 
     class Ball{
 
@@ -377,52 +386,4 @@ public class AnimationView extends View implements SensorEventListener {
             return this.yLocation + this.radius;
         }
     }
-
-    //TimerTask: https://developer.android.com/reference/java/util/TimerTask.html
-    /*
-    class AnimationTimerTask extends TimerTask {
-
-        private AnimationView _animationView;
-        private long _lastTimeInMs = -1;
-
-        public AnimationTimerTask(AnimationView animationView){
-            _animationView = animationView;
-        }
-
-        @Override
-        public void run() {
-            if(_lastTimeInMs == -1){
-                _lastTimeInMs = SystemClock.elapsedRealtime();
-            }
-            long curTimeInMs = SystemClock.elapsedRealtime();
-
-            synchronized (_animationView.balls){
-                for(Ball ball : _animationView.balls){
-                    ball.xLocation += ball.xVelocity * (curTimeInMs - _lastTimeInMs)/1000f;
-                    ball.yLocation += ball.yVelocity * (curTimeInMs - _lastTimeInMs)/1000f;
-
-                    // check x ball boundary
-                    if(ball.getRight() >= getWidth() || ball.getLeft() <= 0){
-                        // switch directions
-                        ball.xVelocity = -1 * ball.xVelocity;
-                    }
-
-                    // check y ball boundary
-                    if(ball.getBottom() >= getHeight() || ball.getTop() <= 0){
-                        // switch directions
-                        ball.yVelocity = -1 * ball.yVelocity;
-                    }
-
-                }
-
-
-
-            }
-
-
-            _animationView.postInvalidate();
-            _lastTimeInMs = curTimeInMs;
-        }
-    }
-    */
 }
