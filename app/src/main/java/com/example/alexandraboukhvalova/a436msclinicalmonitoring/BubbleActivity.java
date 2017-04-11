@@ -3,7 +3,9 @@ package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -15,7 +17,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class BubbleActivity extends Activity {
+public class BubbleActivity extends Activity implements Sheets.Host {
 
     int trialNum = 0;
     long timeOfBirth;
@@ -29,10 +31,21 @@ public class BubbleActivity extends Activity {
     Button startTrial;
     Button btn;
 
+    public static final int LIB_ACCOUNT_NAME_REQUEST_CODE = 1001;
+    public static final int LIB_AUTHORIZATION_REQUEST_CODE = 1002;
+    public static final int LIB_PERMISSION_REQUEST_CODE = 1003;
+    public static final int LIB_PLAY_SERVICES_REQUEST_CODE = 1004;
+
+    private Sheets sheet;
+    private String spreadsheetId = "1jus0ktF2tQw2sOjsxVb4zoDeD1Zw90KAMFNTQdkFiJQ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubble);
+
+        // initialize sheet
+        sheet = new Sheets(this, getString(R.string.app_name), spreadsheetId);
 
         bubble = (Button) findViewById(R.id.bubble);
         bubble.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +130,7 @@ public class BubbleActivity extends Activity {
             TextView textView=(TextView) findViewById(R.id.showResult);
             textView.setText("You hit " + passTrial+"\n"+
                     "Your average tap response time was " + precision.format(result) + " seconds");
+            sendToSheets(Double.valueOf(result).floatValue());
 
             textView.setTextSize(25);
             textView.setVisibility(View.VISIBLE);
@@ -154,5 +168,46 @@ public class BubbleActivity extends Activity {
                 moveBubble();
             }
         }, 1000);
+    }
+
+    private void sendToSheets(float trialRes) {
+        String userId = "t04p05 (Matt)";
+        sheet.writeData(Sheets.TestType.RH_POP, userId, trialRes);
+    }
+
+    // the following four methods for Sheet implementation have been copied directly from armcurl
+    @Override
+    public void onRequestPermissionsResult (int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        sheet.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        sheet.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public int getRequestCode(Sheets.Action action) {
+        switch (action) {
+            case REQUEST_ACCOUNT_NAME:
+                return LIB_ACCOUNT_NAME_REQUEST_CODE;
+            case REQUEST_AUTHORIZATION:
+                return LIB_AUTHORIZATION_REQUEST_CODE;
+            case REQUEST_PERMISSIONS:
+                return LIB_PERMISSION_REQUEST_CODE;
+            case REQUEST_PLAY_SERVICES:
+                return LIB_PLAY_SERVICES_REQUEST_CODE;
+            default:
+                return -1;
+        }
+    }
+
+    @Override
+    public void notifyFinished(Exception e) {
+        if (e != null) {
+            throw new RuntimeException(e);
+        }
+        Log.i(getClass().getSimpleName(), "Done");
     }
 }

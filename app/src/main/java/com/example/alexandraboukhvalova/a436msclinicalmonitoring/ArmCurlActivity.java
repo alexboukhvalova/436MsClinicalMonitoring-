@@ -107,7 +107,7 @@ public class ArmCurlActivity extends Activity implements SensorEventListener, Sh
 
     private void sendToSheets() {
 
-        String userId = "t99p99";
+        String userId = "t04p05 (Matt)";
         //float data = 1.23f;
 
 
