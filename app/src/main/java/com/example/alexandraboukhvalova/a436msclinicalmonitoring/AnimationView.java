@@ -2,6 +2,7 @@ package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.lang.reflect.Array;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -238,6 +240,7 @@ public class AnimationView extends View implements SensorEventListener {
 
 
                     //TODO: instead of calling this all the time, call it after the trial is done.
+                    //TODO: before the call to score(), store the points in the database
                     score();
 
                 }
@@ -425,4 +428,35 @@ public class AnimationView extends View implements SensorEventListener {
         }
     }
     */
+
+    public void pointsToStorage(ArrayList<Point> points) {
+        // convert points to path
+        Path path = new Path();
+        for (int i = 0; i < points.size(); i++) {
+            path.moveTo(points.get(i).x, points.get(i).y);
+        }
+
+        // convert path to bitmap
+        Bitmap bmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas();
+        canvas.setBitmap(bmap);
+
+        // specific styling should be changed here
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.rgb(0, 0, 0));
+        paint.setStrokeWidth(10);
+
+        canvas.drawPath(path, paint);
+
+        // convert bitmap to int[] for storage in database
+        //TODO: instead of storing the bitmap in the database for future retrieval, store in gallery
+        int[] arr;
+        int x = bmap.getWidth();
+        int y = bmap.getHeight();
+        arr = new int[x * y];
+        bmap.setPixels(arr, 0, x, 0, 0, x, y);
+
+        // arr is not an int[] representation of the bitmap containing the level path
+    }
 }
