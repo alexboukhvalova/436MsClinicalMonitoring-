@@ -2,6 +2,7 @@ package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -9,14 +10,19 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+//import com.example.sheets436.Sheets;
+
+import edu.umd.cmsc436.sheets.Sheets;
+
 import org.w3c.dom.Text;
 
-public class ArmCurlActivity extends Activity implements SensorEventListener{
+public class ArmCurlActivity extends Activity implements SensorEventListener, Sheets.Host{
 
     private SensorManager mSensorManager;
     //private Sensor mSensorAccel, mSensorMag, mSensorProx;
@@ -25,6 +31,13 @@ public class ArmCurlActivity extends Activity implements SensorEventListener{
     private Button startStopArmCurlBtn;
     private TextView numTaps;
 
+    public static final int LIB_ACCOUNT_NAME_REQUEST_CODE = 1001;
+    public static final int LIB_AUTHORIZATION_REQUEST_CODE = 1002;
+    public static final int LIB_PERMISSION_REQUEST_CODE = 1003;
+    public static final int LIB_PLAY_SERVICES_REQUEST_CODE = 1004;
+
+    private Sheets sheet;
+    private String spreadsheetId = "1jus0ktF2tQw2sOjsxVb4zoDeD1Zw90KAMFNTQdkFiJQ";
 
     int taps;
     //int zeroPoints;
@@ -39,6 +52,7 @@ public class ArmCurlActivity extends Activity implements SensorEventListener{
     private long elapsedTime;
     private Handler mHandler = new Handler();
     private final int REFRESH_RATE = 100;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +69,7 @@ public class ArmCurlActivity extends Activity implements SensorEventListener{
         //mSensorAccel = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         //mSensorMag = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         mSensorProx = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        sheet = new Sheets(this, getString(R.string.app_name), spreadsheetId);
 
         startStopArmCurlBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,9 +100,19 @@ public class ArmCurlActivity extends Activity implements SensorEventListener{
                 startStopArmCurlBtn.setClickable(true);
                 startStopArmCurlBtn.setText("Start Test");
                 startStopArmCurlBtn.setAlpha(1.0f);
+                sendToSheets();
             }
         }
     };
+
+    private void sendToSheets() {
+
+        String userId = "t99p99";
+        //float data = 1.23f;
+
+
+        sheet.writeData(Sheets.TestType.RH_POP, userId, taps);
+    }
 
     public void initializeViews() {
         startStopArmCurlBtn = (Button) findViewById(R.id.startStopArmCurlBtn);
@@ -163,4 +188,38 @@ public class ArmCurlActivity extends Activity implements SensorEventListener{
 
     }
 
+    @Override
+    public void onRequestPermissionsResult (int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        sheet.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        sheet.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public int getRequestCode(Sheets.Action action) {
+        switch (action) {
+            case REQUEST_ACCOUNT_NAME:
+                return LIB_ACCOUNT_NAME_REQUEST_CODE;
+            case REQUEST_AUTHORIZATION:
+                return LIB_AUTHORIZATION_REQUEST_CODE;
+            case REQUEST_PERMISSIONS:
+                return LIB_PERMISSION_REQUEST_CODE;
+            case REQUEST_PLAY_SERVICES:
+                return LIB_PLAY_SERVICES_REQUEST_CODE;
+            default:
+                return -1;
+        }
+    }
+
+    @Override
+    public void notifyFinished(Exception e) {
+        if (e != null) {
+            throw new RuntimeException(e);
+        }
+        Log.i(getClass().getSimpleName(), "Done");
+    }
 }

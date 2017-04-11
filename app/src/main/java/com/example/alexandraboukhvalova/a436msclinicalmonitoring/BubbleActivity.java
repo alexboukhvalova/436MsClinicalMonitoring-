@@ -1,12 +1,15 @@
 package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import edu.umd.cmsc436.sheets.Sheets;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -97,6 +100,7 @@ public class BubbleActivity extends Activity {
 
         }
         if (trialNum == 10) {
+            trialNum = 100;
             double result = 0.0;
             DecimalFormat precision = new DecimalFormat("0.00");
 
@@ -116,6 +120,14 @@ public class BubbleActivity extends Activity {
 
             textView.setTextSize(25);
             textView.setVisibility(View.VISIBLE);
+
+//            Intent sheets = new Intent(this, Sheets.class);
+//            String myUserId = "t04p03";
+//            sheets.putExtra(Sheets.EXTRA_TYPE, Sheets.UpdateType.RH_POP.ordinal());
+//            sheets.putExtra(Sheets.EXTRA_USER, myUserId);
+//            sheets.putExtra(Sheets.EXTRA_VALUE, (float)result);
+//
+//            startActivity(sheets);
         }
     }
 
