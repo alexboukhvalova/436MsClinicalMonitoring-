@@ -10,6 +10,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/libs" />
+            <option value="$PROJECT_DIR$/libs/SheetsLibrary" />
+            <option value="$PROJECT_DIR$/sheets436-0.0.2-release" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
