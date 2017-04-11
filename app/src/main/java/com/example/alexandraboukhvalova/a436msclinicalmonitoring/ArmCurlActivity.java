@@ -38,8 +38,8 @@ public class ArmCurlActivity extends Activity implements SensorEventListener, Sh
     public static final int LIB_PLAY_SERVICES_REQUEST_CODE = 1004;
 
     private Sheets sheet;
-    private String spreadsheetId = "1jus0ktF2tQw2sOjsxVb4zoDeD1Zw90KAMFNTQdkFiJQ";
-
+    //private String spreadsheetId = "1jus0ktF2tQw2sOjsxVb4zoDeD1Zw90KAMFNTQdkFiJQ";
+    private String spreadsheetId = "1YvI3CjS4ZlZQDYi5PaiA7WGGcoCsZfLoSFM0IdvdbDU";
     int taps;
     //int zeroPoints;
     //boolean startPosition;
@@ -75,7 +75,7 @@ public class ArmCurlActivity extends Activity implements SensorEventListener, Sh
         startStopArmCurlBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
                 mSensorManager.registerListener(ArmCurlActivity.this, mSensorProx, SensorManager.SENSOR_DELAY_NORMAL);
                 startStopArmCurlBtn.setEnabled(false);
                 startStopArmCurlBtn.setText("Test is running for right hand...");
@@ -104,6 +104,8 @@ public class ArmCurlActivity extends Activity implements SensorEventListener, Sh
                 startTime = System.currentTimeMillis();
                 taps = 0;
                 mHandler.removeCallbacks(startRightTimer);
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                v.vibrate(500);
                 mHandler.postDelayed(startLeftTimer, 500);
             }
         }
@@ -117,7 +119,8 @@ public class ArmCurlActivity extends Activity implements SensorEventListener, Sh
                 startStopArmCurlBtn.setText("Test is running for left hand...");
                 mHandler.postDelayed(this, REFRESH_RATE);
             } else{
-
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                v.vibrate(500);
                 startStopArmCurlBtn.setText("Done Test!");
                 //startStopArmCurlBtn.setClickable(true);
                 //startStopArmCurlBtn.setText("Start Test");
