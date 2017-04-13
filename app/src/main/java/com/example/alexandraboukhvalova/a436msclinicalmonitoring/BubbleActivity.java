@@ -3,7 +3,10 @@ package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -15,24 +18,41 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class BubbleActivity extends Activity {
+public class BubbleActivity extends Activity implements Sheets.Host {
 
-    int trialNum = 0;
-    long timeOfBirth;
-    long timeOfDeath;
-    int passTrial=0;
+    private int trialNum = 0;
+    private long timeOfBirth;
+    private long timeOfDeath;
+    private int passTrial=0;
 
     // to store response times
-    final ArrayList<Long> lifespans = new ArrayList<Long>();
+    private final ArrayList<Long> lifespans = new ArrayList<Long>();
 
-    Button bubble;
-    Button startTrial;
-    Button btn;
+    private Button bubble;
+    private Button startTrial;
+    private Button btn;
+
+    public static final int LIB_ACCOUNT_NAME_REQUEST_CODE = 1001;
+    public static final int LIB_AUTHORIZATION_REQUEST_CODE = 1002;
+    public static final int LIB_PERMISSION_REQUEST_CODE = 1003;
+    public static final int LIB_PLAY_SERVICES_REQUEST_CODE = 1004;
+
+    private Sheets teamSheet;
+    private Sheets centralSheet;
+
+    private String teamSpreadsheetId = "1jus0ktF2tQw2sOjsxVb4zoDeD1Zw90KAMFNTQdkFiJQ";
+    private String centralSpreadsheetId = "1YvI3CjS4ZlZQDYi5PaiA7WGGcoCsZfLoSFM0IdvdbDU";
+    private String userId = "t04p03";
+
+    private static final boolean WRITE_TO_CENTRAL = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubble);
+
+        teamSheet = new Sheets(this, getString(R.string.app_name), teamSpreadsheetId);
+        centralSheet = new Sheets(this, getString(R.string.app_name), centralSpreadsheetId);
 
         bubble = (Button) findViewById(R.id.bubble);
         bubble.setOnClickListener(new View.OnClickListener() {
@@ -121,13 +141,9 @@ public class BubbleActivity extends Activity {
             textView.setTextSize(25);
             textView.setVisibility(View.VISIBLE);
 
-//            Intent sheets = new Intent(this, Sheets.class);
-//            String myUserId = "t04p03";
-//            sheets.putExtra(Sheets.EXTRA_TYPE, Sheets.UpdateType.RH_POP.ordinal());
-//            sheets.putExtra(Sheets.EXTRA_USER, myUserId);
-//            sheets.putExtra(Sheets.EXTRA_VALUE, (float)result);
-//
-//            startActivity(sheets);
+            teamSheet.writeData(Sheets.TestType.RH_POP, userId, (float) result);
+            if (WRITE_TO_CENTRAL)
+                centralSheet.writeData(Sheets.TestType.RH_POP, userId, (float) result);
         }
     }
 
@@ -154,5 +170,40 @@ public class BubbleActivity extends Activity {
                 moveBubble();
             }
         }, 1000);
+    }
+
+    @Override
+    public void onRequestPermissionsResult (int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        teamSheet.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        teamSheet.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public int getRequestCode(Sheets.Action action) {
+        switch (action) {
+            case REQUEST_ACCOUNT_NAME:
+                return LIB_ACCOUNT_NAME_REQUEST_CODE;
+            case REQUEST_AUTHORIZATION:
+                return LIB_AUTHORIZATION_REQUEST_CODE;
+            case REQUEST_PERMISSIONS:
+                return LIB_PERMISSION_REQUEST_CODE;
+            case REQUEST_PLAY_SERVICES:
+                return LIB_PLAY_SERVICES_REQUEST_CODE;
+            default:
+                return -1;
+        }
+    }
+
+    @Override
+    public void notifyFinished(Exception e) {
+        if (e != null) {
+            throw new RuntimeException(e);
+        }
+        Log.i(getClass().getSimpleName(), "Done");
     }
 }
