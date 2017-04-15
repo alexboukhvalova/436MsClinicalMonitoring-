@@ -14,7 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.os.*;
-
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     Button levelActivityBtn;
     Button bubbleActivityBtn;
     Button armCurlActivityBtn;
+    Button stepsB;
+
 
 
     @Override
@@ -56,6 +59,34 @@ public class MainActivity extends AppCompatActivity {
         levelActivityBtn = (Button) findViewById(R.id.LevelActivityButton);
         bubbleActivityBtn = (Button) findViewById(R.id.BubbleActivityButton);
         armCurlActivityBtn = (Button) findViewById(R.id.ArmCurlActivityButton);
+        stepsB=(Button) findViewById(R.id.steps);
+
+        stepsB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("steps Test Instructions");
+                builder.setMessage("first choose your sex from the menu that appear after you click ok then start to walk");
+                builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(context, Speed.class);
+                                startActivity(intent);
+
+
+
+                            }
+                        }, 50);
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
 
         tappingActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
