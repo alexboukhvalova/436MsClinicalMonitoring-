@@ -13,7 +13,10 @@
             <option value="$PROJECT_DIR$/libs" />
             <option value="$PROJECT_DIR$/libs/SheetsLibrary" />
             <option value="$PROJECT_DIR$/sheets436-0.0.2-release" />
+<<<<<<< HEAD
             <option value="$PROJECT_DIR$/sheets436-v0.0.1-release" />
+=======
+>>>>>>> e6a5a305441a2a31b4dd39576eeef9528557fd52
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -5,7 +5,11 @@ android {
     buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.example.alexandraboukhvalova.a436msclinicalmonitoring"
+<<<<<<< HEAD
         minSdkVersion 25
+=======
+        minSdkVersion 23
+>>>>>>> e6a5a305441a2a31b4dd39576eeef9528557fd52
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -17,9 +21,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+    }
 }
 
 dependencies {
+<<<<<<< HEAD
     compile 'com.google.android.gms:play-services-auth:10.2.1'
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
@@ -29,6 +36,8 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
         exclude group: 'com.google.code.findbugs'
     }
+=======
+>>>>>>> e6a5a305441a2a31b4dd39576eeef9528557fd52
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -46,4 +55,17 @@ dependencies {
     }
     testCompile 'junit:junit:4.12'
     compile project(':sheets436-0.0.2-release')
+<<<<<<< HEAD
+=======
+
+    compile 'com.google.android.gms:play-services-auth:10.2.1'
+    compile('com.google.api-client:google-api-client-android:1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+        exclude group: 'com.google.code.findbugs'
+    }
+    compile('com.google.apis:google-api-services-sheets:v4-rev466-1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+        exclude group: 'com.google.code.findbugs'
+    }
+>>>>>>> e6a5a305441a2a31b4dd39576eeef9528557fd52
 }

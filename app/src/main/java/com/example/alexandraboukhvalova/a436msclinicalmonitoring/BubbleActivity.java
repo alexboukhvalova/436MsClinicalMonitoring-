@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.sheets436.Sheets;
+import edu.umd.cmsc436.sheets.Sheets;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -121,6 +121,7 @@ public class BubbleActivity extends Activity {
             textView.setTextSize(25);
             textView.setVisibility(View.VISIBLE);
 
+<<<<<<< HEAD
             Intent sheets = new Intent(this, Sheets.class);
             String myUserId = "T04P05";
             sheets.putExtra(Sheets.EXTRA_TYPE, Sheets.UpdateType.RH_POP.ordinal());
@@ -128,6 +129,15 @@ public class BubbleActivity extends Activity {
             sheets.putExtra(Sheets.EXTRA_VALUE, (float)result);
 
             startActivity(sheets);
+=======
+//            Intent sheets = new Intent(this, Sheets.class);
+//            String myUserId = "t04p03";
+//            sheets.putExtra(Sheets.EXTRA_TYPE, Sheets.UpdateType.RH_POP.ordinal());
+//            sheets.putExtra(Sheets.EXTRA_USER, myUserId);
+//            sheets.putExtra(Sheets.EXTRA_VALUE, (float)result);
+//
+//            startActivity(sheets);
+>>>>>>> e6a5a305441a2a31b4dd39576eeef9528557fd52
         }
     }
 
