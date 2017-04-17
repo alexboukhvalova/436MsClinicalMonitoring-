@@ -19,48 +19,45 @@ import java.util.Random;
 
 public class BubbleActivity extends Activity implements Sheets.Host {
 
-    int trialNum = 0;
+    int totalBubbles = 0;
+    int poppedBubbles = 0;
     long timeOfBirth;
     long timeOfDeath;
-    int passTrial=0;
 
     // to store response times
-    final ArrayList<Long> lifespans = new ArrayList<Long>();
+    final ArrayList<Double> lifespans = new ArrayList<Double>();
 
-    Button bubble;
+    int oldBubbleX;
+    int oldBubbleY;
+    int newBubbleX;
+    int newBubbleY;
+
     Button startTrial;
-    Button btn;
+    Button bubble;
+    TextView debugNarrator;
 
     public static final int LIB_ACCOUNT_NAME_REQUEST_CODE = 1001;
     public static final int LIB_AUTHORIZATION_REQUEST_CODE = 1002;
     public static final int LIB_PERMISSION_REQUEST_CODE = 1003;
     public static final int LIB_PLAY_SERVICES_REQUEST_CODE = 1004;
 
+    // main spreadsheet information
     private Sheets sheet;
-    private String spreadsheetId = "1jus0ktF2tQw2sOjsxVb4zoDeD1Zw90KAMFNTQdkFiJQ";
+    private String spreadsheetId = "1YvI3CjS4ZlZQDYi5PaiA7WGGcoCsZfLoSFM0IdvdbDU";
+
+    // user id
+    private static final String USER_ID = "t04p05";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubble);
 
+        debugNarrator = (TextView) findViewById(R.id.debugNarrator);
+
         // initialize sheet
         sheet = new Sheets(this, getString(R.string.app_name), spreadsheetId);
-
         bubble = (Button) findViewById(R.id.bubble);
-        bubble.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // on click, record the difference between time of appearance
-                // and time of click
-                timeOfDeath =  System.nanoTime();
-                //nano second fro recording trials
-                long lifespan = (timeOfDeath - timeOfBirth);
-                lifespans.add(lifespan);
-                passTrial++;
-
-            }
-        });
 
         // the bubble should not be visible until the trial has started
         bubble.setVisibility(View.GONE);
@@ -82,100 +79,170 @@ public class BubbleActivity extends Activity implements Sheets.Host {
     }
 
     public void moveBubble() {
+        bubble.setVisibility(View.GONE);
 
         // the max number of trials can be changed here
-        if (trialNum < 10) {
-            btn = (Button) findViewById(R.id.bubble);
+        if (totalBubbles < 10) {
+            bubble = (Button) findViewById(R.id.bubble);
 
             // get screen dimensions
-            RelativeLayout.LayoutParams scene = (RelativeLayout.LayoutParams) btn.getLayoutParams();
+            RelativeLayout.LayoutParams scene = (RelativeLayout.LayoutParams) bubble.getLayoutParams();
             DisplayMetrics metrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
             // set new location for bubble
-            scene.leftMargin = btn.getWidth()
-                    + new Random().nextInt(metrics.widthPixels - 5 * btn.getWidth());
-            scene.topMargin = btn.getHeight()
-                    + new Random().nextInt(metrics.heightPixels - 3 * btn.getHeight());
-            btn.setLayoutParams(scene);
+            int fullWidth = metrics.widthPixels;
+            int fullHeight = metrics.heightPixels;
+            int x = bubble.getWidth()
+                    + new Random()
+                    .nextInt(fullWidth - (4 * bubble.getWidth()));
+            int y = bubble.getHeight()
+                    + new Random()
+                    .nextInt(fullHeight - (5 * bubble.getHeight()));
+
+            scene.leftMargin = x;
+            scene.topMargin = y;
+
+            // set bubble at new location
+            bubble.setLayoutParams(scene);
+            bubble.setVisibility(View.VISIBLE);
 
             // save time of appearance as time of birth
-            // increment trialNum
-            trialNum++;
-
             timeOfBirth = System.nanoTime();
 
-            btn.postDelayed(new Runnable() {
+            // increment trialNum
+            totalBubbles++;
+
+            // update old and new coordinates
+            oldBubbleX = newBubbleX;
+            oldBubbleY = newBubbleY;
+            newBubbleX = x;
+            newBubbleY = y;
+
+            // calculate distance between old and new coordinates
+            int a = Math.abs((newBubbleX - oldBubbleX)^2);
+            int b = Math.abs((newBubbleY - oldBubbleY)^2);
+
+            // TODO : this should factor into the metric
+            double distance = Math.sqrt(a + b);
+
+            // FOR DEBUG PURPOSES
+            debugNarrator.setText("full: " + fullWidth + " x " + fullHeight + "\n"
+                    + "old location: " + oldBubbleX + " x " + oldBubbleY + "\n"
+                    + "new location: " + newBubbleX + " x " + newBubbleY + "\n"
+                    + "distX: " + a + "\n"
+                    + "distY: " + b + "\n"
+                    + "distance: " + distance + "\n"
+                    + "birthday: " + timeOfBirth + "\n"
+                    + "deathday: " + timeOfDeath + "\n"
+                    //+ "lifespan: " + lifespan + "\n"
+                    );
+
+
+            bubble.postDelayed(new Runnable() {
                 public void run() {
                     moveBubble();
                 }
-            }, 1000);
-
+            }, 10000);
         }
-        if (trialNum == 10) {
-            trialNum = 100;
+
+        if (totalBubbles == 10) {
+            // not sure why this is here; who added?
+            totalBubbles = 100;
+
             double result = 0.0;
             DecimalFormat precision = new DecimalFormat("0.00");
 
-            for (Long s : lifespans) {
-                result=result+(s/1000000000.0);
+            // FOR DEBUG PURPOSES
+            String detailData = "";
+            for (int i = 0; i < lifespans.size(); i++) {
+                detailData += "" + i + ": " + precision.format(lifespans.get(i)) + "\n";
             }
 
-            if(passTrial>0)
-                result=result/passTrial;
-            else
-                result=0.0;
+            if(poppedBubbles > 0) {
+                double totalReactionTime = 0;
+                for (int i = 0; i < lifespans.size(); i++) {
+                    totalReactionTime += lifespans.get(i);
+                }
+                result = totalReactionTime / poppedBubbles;
+            } else {
+                result = 0.0;
+            }
 
-            btn.setVisibility(View.INVISIBLE);
-            TextView textView=(TextView) findViewById(R.id.showResult);
-            textView.setText("You hit " + passTrial+"\n"+
-                    "Your average tap response time was " + precision.format(result) + " seconds");
+            bubble.setVisibility(View.INVISIBLE);
+            TextView resultScreen = (TextView) findViewById(R.id.showResult);
+
+            resultScreen.setText("You hit " + poppedBubbles + " bubbles.\n"
+                    + "Your average tap response time was " + precision.format(result)
+                    + " seconds.\n"
+                    //+ detailData
+            );
+
             sendToSheets(Double.valueOf(result).floatValue());
-
-            textView.setTextSize(25);
-            textView.setVisibility(View.VISIBLE);
-
-//            Intent sheets = new Intent(this, Sheets.class);
-//            String myUserId = "t04p03";
-//            sheets.putExtra(Sheets.EXTRA_TYPE, Sheets.UpdateType.RH_POP.ordinal());
-//            sheets.putExtra(Sheets.EXTRA_USER, myUserId);
-//            sheets.putExtra(Sheets.EXTRA_VALUE, (float)result);
-//
-//            startActivity(sheets);
+            resultScreen.setTextSize(25);
+            resultScreen.setVisibility(View.VISIBLE);
         }
     }
 
     public void initialLocation() {
-        btn = (Button) findViewById(R.id.bubble);
+        bubble = (Button) findViewById(R.id.bubble);
 
         // get screen dimensions
-        RelativeLayout.LayoutParams scene = (RelativeLayout.LayoutParams) btn.getLayoutParams();
+        RelativeLayout.LayoutParams scene = (RelativeLayout.LayoutParams) bubble.getLayoutParams();
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        // set new location for bubble
-        scene.leftMargin = btn.getWidth()
-                + new Random().nextInt(metrics.widthPixels - 3 * btn.getWidth());
-        scene.topMargin = btn.getHeight()
-                + new Random().nextInt(metrics.heightPixels - 3 * btn.getHeight());
-        btn.setLayoutParams(scene);
+        // set initial location for bubble
+        int fullWidth = metrics.widthPixels;
+        int fullHeight = metrics.heightPixels;
+        int x = bubble.getWidth()
+                + new Random()
+                .nextInt(fullWidth - (5 * bubble.getWidth()));
+        int y = bubble.getHeight()
+                + new Random()
+                .nextInt(fullHeight - (5 * bubble.getHeight()));
+
+        // FOR DEBUG PURPOSES
+        debugNarrator.setText("full: " + fullWidth + " x " + fullHeight + "\n"
+            + "location: " + x + " x " + y);
+
+        scene.leftMargin = x;
+        scene.topMargin = y;
+
+        oldBubbleX = x;
+        oldBubbleY = y;
+        newBubbleX = x;
+        newBubbleY = y;
+
+        bubble.setLayoutParams(scene);
 
         // save time of appearance as time of birth
         timeOfBirth =  System.nanoTime();
 
-        btn.postDelayed(new Runnable() {
-            public void run() {
+
+        bubble.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                poppedBubbles++;
+                timeOfDeath = System.nanoTime();
+                saveLife();
                 moveBubble();
             }
-        }, 1000);
+        });
+    }
+
+    private void saveLife() {
+        double lifespan = ((timeOfDeath - timeOfBirth)/1000000000.0);
+        lifespans.add(lifespan);
     }
 
     private void sendToSheets(float trialRes) {
-        String userId = "t04p05 (Matt)";
+        String userId = USER_ID;
         sheet.writeData(Sheets.TestType.RH_POP, userId, trialRes);
     }
 
-    // the following four methods for Sheet implementation have been copied directly from armcurl
+    // the following four methods for Sheet implementation have been copied directly from the
+    // class example app
     @Override
     public void onRequestPermissionsResult (int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         sheet.onRequestPermissionsResult(requestCode, permissions, grantResults);
