@@ -10,6 +10,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -49,7 +50,7 @@ public class Speed extends Activity implements SensorEventListener{
 
             timerTextView.setText(String.format("%d:%02d", minutes, seconds));
 
-            timerHandler.postDelayed(this, 500);
+            timerHandler.postDelayed(this, 0);
         }
     };
 
@@ -61,33 +62,34 @@ public class Speed extends Activity implements SensorEventListener{
         setContentView(R.layout.activity_speed);
         sManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         stepSensor = sManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-        TextView timev = (TextView) findViewById(R.id.timeRun);
-        TextView disv = (TextView) findViewById(R.id.dis);
-        TextView speedv = (TextView) findViewById(R.id.speed);
+        timev = (TextView) findViewById(R.id.timeRun);
+        disv = (TextView) findViewById(R.id.dis);
+        speedv = (TextView) findViewById(R.id.speed);
         timerTextView = (TextView) findViewById(R.id.timerTextView);
         radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
         btnDisplay = (Button) findViewById(R.id.btnDisplay);
         male = (RadioButton) findViewById(R.id.radioMale);
         female = (RadioButton) findViewById(R.id.radioFemale);
 
+        //speedv.setText("Speed: 0");
+
+        Log.i("Speed","Created and registered");
         btnDisplay.setOnClickListener(new View.OnClickListener() {
 
+            //step lengths from http://livehealthy.chron.com/average-walking-stride-length-7494.html
             @Override
             public void onClick(View v) {
                 if (male.isChecked()){
-                    height=78;
+                    height=60;
                 }
                 if (female.isChecked()){
-                    height=70;
+                    height=53;
                 }
 
                 startTime = System.currentTimeMillis();
                 timerHandler.postDelayed(timerRunnable, 0);
-                btnDisplay.setVisibility (View.INVISIBLE);
-                male.setVisibility (View.INVISIBLE);
-                female.setVisibility (View.INVISIBLE);
-
-
+                btnDisplay.setVisibility (View.GONE);
+                radioSexGroup.setVisibility(View.GONE);
             }
         });
 
@@ -110,32 +112,38 @@ public class Speed extends Activity implements SensorEventListener{
         if (values.length > 0) {
             value = (int) values[0];
         }
-
-
+        Log.i("Speed",""+speedv.getVisibility()+View.INVISIBLE+View.VISIBLE+View.GONE);
         if (sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
-            if(steps==0)
-                time=System.nanoTime();
-            System.out.println("we are here");
-            steps++;
+            if(steps==0) {
+                time = System.nanoTime();
+                Log.i("Speed","First step " + time);
+                steps++;
+            } else if(steps < 25) {
+                Log.i("Speed","curr steps " + steps);
+                steps++;
+            }
+            if(steps==25){
+                float time2 = System.nanoTime();
+                float diff =(time2-time)/1000000000;
+                Log.i("Speed","finished " + time2);
+                //time=time/25;
+                //time=time/10000000;
+                //returns distance in inches, so make it to feet
+                float distance=getDistanceRun(25)/12;
+                float speed=distance/diff;
+                speedv.setText("Speed(ft/s): " + speed);
+                timev.setText("Time (s): " + diff);
+                disv.setText("Distance (ft): " + distance);
+                sManager.unregisterListener(this, stepSensor);
+                timerHandler.removeCallbacks(timerRunnable);
+            }
         }
-        if(steps==25){
-            time=System.nanoTime()-time;
-            time=time/25;
-            time=time/10000000;
-            float distance=getDistanceRun(25)/1000;
-            float speed=distance/time;
-            speedv.setText(speed+"");
-            timev.setText(time+"");
-            disv.setText(distance+"");
-
-        }
-
-
 
     }
+
     // calculate distance by multipying steps by average height / 100000
     public float getDistanceRun(long steps){
-        float distance = (float)(steps*height)/(float)100000;
+        float distance = (float)(steps*height);
         return distance;
     }
 
