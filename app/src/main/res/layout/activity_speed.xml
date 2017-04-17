@@ -43,14 +43,14 @@
             android:id="@+id/radioMale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="male"
+            android:text="Male"
             android:checked="true" />
 
         <RadioButton
             android:id="@+id/radioFemale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="female" />
+            android:text="Female" />
 
     </RadioGroup>
     <Button

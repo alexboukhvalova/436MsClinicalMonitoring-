@@ -23,7 +23,7 @@ public class Speed extends Activity implements SensorEventListener{
     Sensor stepSensor ;
     private long steps = 0;
     private long time = 0l;
-    //these three will calc time ,ditance,speed
+    //these three will calc time ,distance,speed
     TextView timev;
     TextView disv;
     TextView speedv;
@@ -37,7 +37,7 @@ public class Speed extends Activity implements SensorEventListener{
 
 
 
-    //runs without a timer by reposting this handler at the end of the runnable
+    //runs without a timer by re-posting this handler at the end of the runnable
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
 
@@ -93,13 +93,8 @@ public class Speed extends Activity implements SensorEventListener{
             }
         });
 
-
-        System.out.println("we are here now");
         Intent intent = getIntent();
         int intValue = intent.getIntExtra("intVariableName", 0);
-
-
-
     }
 
     // the main job for this function is to try calc time
@@ -141,7 +136,7 @@ public class Speed extends Activity implements SensorEventListener{
 
     }
 
-    // calculate distance by multipying steps by average height / 100000
+    // calculate distance by multiplying steps by average height / 100000
     public float getDistanceRun(long steps){
         float distance = (float)(steps*height);
         return distance;

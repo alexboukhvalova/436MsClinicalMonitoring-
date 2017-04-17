@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -65,24 +66,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("steps Test Instructions");
-                builder.setMessage("first choose your sex from the menu that appear after you click ok then start to walk");
-                builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, close
-                        // current activity
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(context, Speed.class);
-                                startActivity(intent);
 
+                if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_DETECTOR)) {
+                    builder.setTitle("Steps Test Instructions");
+                    builder.setMessage("First choose your sex from the menu, press \"Start\", then begin to walk");
+                    builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            // if this button is clicked, close
+                            // current activity
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(context, Speed.class);
+                                    startActivity(intent);
+                                }
+                            }, 50);
+                        }
+                    });
+                } else {
+                    builder.setTitle("No Step Detector Sensor Found in Device");
+                    builder.setMessage("This test requires a step detector in the device to correctly function.");
+                    builder.setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    });
+                }
 
-
-                            }
-                        }, 50);
-                    }
-                });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
             }
