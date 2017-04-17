@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/436MsClinicalMonitoring.iml" filepath="$PROJECT_DIR$/436MsClinicalMonitoring.iml" />
-      <module fileurl="file://$PROJECT_DIR$/436MsProject.iml" filepath="$PROJECT_DIR$/436MsProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/436MsClinicalMonitoring-.iml" filepath="$PROJECT_DIR$/436MsClinicalMonitoring-.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/SheetsLibrary/SheetsLibrary.iml" filepath="$PROJECT_DIR$/libs/SheetsLibrary/SheetsLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/libs.iml" filepath="$PROJECT_DIR$/libs/libs.iml" />
       <module fileurl="file://$PROJECT_DIR$/sheets436-0.0.2-release/sheets436-0.0.2-release.iml" filepath="$PROJECT_DIR$/sheets436-0.0.2-release/sheets436-0.0.2-release.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sheets436-v0.0.1-release/sheets436-v0.0.1-release.iml" filepath="$PROJECT_DIR$/sheets436-v0.0.1-release/sheets436-v0.0.1-release.iml" />
     </modules>
   </component>
 </project>
