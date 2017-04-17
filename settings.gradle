@@ -1,6 +1,3 @@
-<<<<<<< HEAD
 include ':app', ':sheets436-v0.0.1-release', ':sheets436-0.0.2-release'
-=======
 include ':app', ':sheets436-0.0.2-release'
->>>>>>> e6a5a305441a2a31b4dd39576eeef9528557fd52
 include 'libs:SheetsLibrary'

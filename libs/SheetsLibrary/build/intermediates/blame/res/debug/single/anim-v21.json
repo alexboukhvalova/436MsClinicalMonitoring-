@@ -1,10 +1,18 @@
 [
     {
-        "merged": "C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_in.xml",
-        "source": "C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.2.0\\res\\anim-v21\\design_bottom_sheet_slide_in.xml"
+        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim-v21/design_bottom_sheet_slide_out.xml",
+        "source": "/Users/apple/.android/build-cache/657115a3f9202bdb176cdf02c36e0d74e6679c16/output/res/anim-v21/design_bottom_sheet_slide_out.xml"
     },
     {
-        "merged": "C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_out.xml",
-        "source": "C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.2.0\\res\\anim-v21\\design_bottom_sheet_slide_out.xml"
+        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim-v21/design_bottom_sheet_slide_in.xml",
+        "source": "/Users/apple/.android/build-cache/657115a3f9202bdb176cdf02c36e0d74e6679c16/output/res/anim-v21/design_bottom_sheet_slide_in.xml"
+    },
+    {
+        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_in.xml",
+        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.2.0\\res\\anim-v21\\design_bottom_sheet_slide_in.xml"
+    },
+    {
+        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_out.xml",
+        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.2.0\\res\\anim-v21\\design_bottom_sheet_slide_out.xml"
     }
 ]

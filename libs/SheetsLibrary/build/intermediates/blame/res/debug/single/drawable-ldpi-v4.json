@@ -1,6 +1,10 @@
 [
     {
-        "merged": "C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\common_ic_googleplayservices.png",
-        "source": "C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.6.0\\res\\drawable-ldpi-v4\\common_ic_googleplayservices.png"
+        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\common_ic_googleplayservices.png",
+        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\9.6.0\\res\\drawable-ldpi-v4\\common_ic_googleplayservices.png"
+    },
+    {
+        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/drawable-ldpi-v4/common_ic_googleplayservices.png",
+        "source": "/Users/apple/.android/build-cache/5d8c77a347f80698745a9264e0b7d5f704ecdd2a/output/res/drawable-ldpi-v4/common_ic_googleplayservices.png"
     }
 ]

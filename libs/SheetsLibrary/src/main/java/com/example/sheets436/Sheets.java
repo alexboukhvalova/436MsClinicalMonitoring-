@@ -188,7 +188,7 @@ public class Sheets extends Activity
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else if (! isDeviceOnline()) {
-            mOutputText.setText(R.string.no_net);
+            mOutputText.setText("");
         } else {
             Log.d("TAG", "trying to request");
             new MakeRequestTask(mCredential).execute();
@@ -248,7 +248,7 @@ public class Sheets extends Activity
         switch(requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
-                    mOutputText.setText(R.string.no_goog);
+                    mOutputText.setText("");
                 } else {
                     getResultsFromApi();
                 }
