@@ -137,6 +137,18 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
+    <Button
+        android:text="25steps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ResultsActivityButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:id="@+id/steps"
+        tools:layout_width="match_parent"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:background="@android:color/transparent" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -153,18 +165,7 @@
             android:background="@android:color/transparent"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
-        <Button
-            android:text="25steps"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignBottom="@+id/ResultsActivityButton"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="17dp"
-            android:id="@+id/steps"
-            tools:layout_width="match_parent"
-            android:textSize="24sp"
-            android:textColor="@android:color/black"
-            android:background="@android:color/transparent" />
+
 
 
         <ImageView
@@ -182,4 +183,5 @@
 
 
     </RelativeLayout>
+
 </LinearLayout>
