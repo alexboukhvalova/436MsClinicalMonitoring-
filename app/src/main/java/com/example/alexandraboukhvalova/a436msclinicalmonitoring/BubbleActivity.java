@@ -54,6 +54,7 @@ public class BubbleActivity extends Activity implements Sheets.Host {
         setContentView(R.layout.activity_bubble);
 
         debugNarrator = (TextView) findViewById(R.id.debugNarrator);
+        debugNarrator.setVisibility(View.INVISIBLE);
 
         // initialize sheet
         sheet = new Sheets(this, getString(R.string.app_name), spreadsheetId);
@@ -126,6 +127,7 @@ public class BubbleActivity extends Activity implements Sheets.Host {
             // TODO : this should factor into the metric
             double distance = Math.sqrt(a + b);
 
+            /*
             // FOR DEBUG PURPOSES
             debugNarrator.setText("full: " + fullWidth + " x " + fullHeight + "\n"
                             + "old location: " + oldBubbleX + " x " + oldBubbleY + "\n"
@@ -137,6 +139,7 @@ public class BubbleActivity extends Activity implements Sheets.Host {
                             + "deathday: " + timeOfDeath + "\n"
                     //+ "lifespan: " + lifespan + "\n"
             );
+            */
 
 
             bubble.postDelayed(new Runnable() {
@@ -153,11 +156,13 @@ public class BubbleActivity extends Activity implements Sheets.Host {
             double result = 0.0;
             DecimalFormat precision = new DecimalFormat("0.00");
 
+            /*
             // FOR DEBUG PURPOSES
             String detailData = "";
             for (int i = 0; i < lifespans.size(); i++) {
                 detailData += "" + i + ": " + precision.format(lifespans.get(i)) + "\n";
             }
+            */
 
             if(poppedBubbles > 0) {
                 double totalReactionTime = 0;
@@ -178,7 +183,8 @@ public class BubbleActivity extends Activity implements Sheets.Host {
                     //+ detailData
             );
 
-            sendToSheets(Double.valueOf(result).floatValue());
+            // TODO: started getting errors due to overwriting to the sheet... lol
+            //sendToSheets(Double.valueOf(result).floatValue());
             resultScreen.setTextSize(25);
             resultScreen.setVisibility(View.VISIBLE);
         }
@@ -202,9 +208,11 @@ public class BubbleActivity extends Activity implements Sheets.Host {
                 + new Random()
                 .nextInt(fullHeight - (5 * bubble.getHeight()));
 
+        /*
         // FOR DEBUG PURPOSES
         debugNarrator.setText("full: " + fullWidth + " x " + fullHeight + "\n"
                 + "location: " + x + " x " + y);
+        */
 
         scene.leftMargin = x;
         scene.topMargin = y;
