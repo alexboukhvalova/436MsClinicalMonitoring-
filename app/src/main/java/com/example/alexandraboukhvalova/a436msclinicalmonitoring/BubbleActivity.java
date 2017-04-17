@@ -191,7 +191,6 @@ public class BubbleActivity extends Activity implements Sheets.Host {
                     //+ detailData
             );
 
-            // TODO: started getting errors due to overwriting to the sheet... lol
             teamSheet.writeData(Sheets.TestType.LH_POP, USER_ID, (float) result);
 
             if (WRITE_TO_CENTRAL)
