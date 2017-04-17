@@ -42,11 +42,17 @@ public class BubbleActivity extends Activity implements Sheets.Host {
     public static final int LIB_PLAY_SERVICES_REQUEST_CODE = 1004;
 
     // main spreadsheet information
-    private Sheets sheet;
-    private String spreadsheetId = "1YvI3CjS4ZlZQDYi5PaiA7WGGcoCsZfLoSFM0IdvdbDU";
+    private Sheets centralSheet;
+    private Sheets teamSheet;
+
+    private String centralSpreadsheetId = "1YvI3CjS4ZlZQDYi5PaiA7WGGcoCsZfLoSFM0IdvdbDU";
+    private String teamSpreadsheetId = "1jus0ktF2tQw2sOjsxVb4zoDeD1Zw90KAMFNTQdkFiJQ";
 
     // user id
     private static final String USER_ID = "t04p05";
+
+    // indicates if test should write to central spreadsheet
+    private static final boolean WRITE_TO_CENTRAL = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +63,9 @@ public class BubbleActivity extends Activity implements Sheets.Host {
         debugNarrator.setVisibility(View.INVISIBLE);
 
         // initialize sheet
-        sheet = new Sheets(this, getString(R.string.app_name), spreadsheetId);
+        centralSheet = new Sheets(this, getString(R.string.app_name), centralSpreadsheetId);
+        teamSheet = new Sheets(this, getString(R.string.app_name), teamSpreadsheetId);
+
         bubble = (Button) findViewById(R.id.bubble);
 
         // the bubble should not be visible until the trial has started
@@ -184,7 +192,11 @@ public class BubbleActivity extends Activity implements Sheets.Host {
             );
 
             // TODO: started getting errors due to overwriting to the sheet... lol
-            //sendToSheets(Double.valueOf(result).floatValue());
+            teamSheet.writeData(Sheets.TestType.LH_POP, USER_ID, (float) result);
+
+            if (WRITE_TO_CENTRAL)
+                centralSheet.writeData(Sheets.TestType.LH_POP, USER_ID, (float) result);
+
             resultScreen.setTextSize(25);
             resultScreen.setVisibility(View.VISIBLE);
         }
@@ -244,22 +256,17 @@ public class BubbleActivity extends Activity implements Sheets.Host {
         lifespans.add(lifespan);
     }
 
-    private void sendToSheets(float trialRes) {
-        String userId = USER_ID;
-        sheet.writeData(Sheets.TestType.RH_POP, userId, trialRes);
-    }
-
     // the following four methods for Sheet implementation have been copied directly from the
     // class example app
     @Override
     public void onRequestPermissionsResult (int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        sheet.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        centralSheet.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        sheet.onActivityResult(requestCode, resultCode, data);
+        centralSheet.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
