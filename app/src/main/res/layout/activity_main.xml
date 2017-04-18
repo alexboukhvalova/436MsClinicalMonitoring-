@@ -51,9 +51,5 @@
             android:text="Results"
             android:id="@+id/ResultsActivityButton"
             style="@style/MainMenuRow_RawItem" />
-        <Button
-            android:text="Steps"
-            android:id="@+id/StepActivityButton"
-            style="@style/MainMenuRow_RawItem"/>
     </LinearLayout>
 </LinearLayout>
