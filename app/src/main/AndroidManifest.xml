@@ -26,7 +26,7 @@
         <activity android:name=".TimingActivity" />
         <activity android:name=".SpiralActivity" />
         <activity android:name=".DrawingView" />
-        <activity android:name=".Speed"/>
+        <activity android:name=".StepActivity"/>
         <activity
             android:name=".LevelActivity"
             android:screenOrientation="portrait" />

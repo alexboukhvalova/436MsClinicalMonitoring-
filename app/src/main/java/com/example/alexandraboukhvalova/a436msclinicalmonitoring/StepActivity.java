@@ -18,7 +18,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 
-public class Speed extends Activity implements SensorEventListener{
+public class StepActivity extends Activity implements SensorEventListener{
     SensorManager sManager ;
     Sensor stepSensor ;
     private long steps = 0;

@@ -6,17 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.os.*;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     Button levelActivityBtn;
     Button bubbleActivityBtn;
     Button armCurlActivityBtn;
-    Button stepsB;
+    Button stepActivityButton;
 
 
 
@@ -60,14 +55,15 @@ public class MainActivity extends AppCompatActivity {
         levelActivityBtn = (Button) findViewById(R.id.LevelActivityButton);
         bubbleActivityBtn = (Button) findViewById(R.id.BubbleActivityButton);
         armCurlActivityBtn = (Button) findViewById(R.id.ArmCurlActivityButton);
-        stepsB=(Button) findViewById(R.id.steps);
+        stepActivityButton =(Button) findViewById(R.id.StepActivityButton);
 
-        stepsB.setOnClickListener(new View.OnClickListener() {
+        stepActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
                 if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_DETECTOR)) {
+
                     builder.setTitle("Steps Test Instructions");
                     builder.setMessage("First choose your sex from the menu, press \"Start\", then begin to walk");
                     builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
@@ -77,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent intent = new Intent(context, Speed.class);
+                                    Intent intent = new Intent(context, StepActivity.class);
                                     startActivity(intent);
                                 }
                             }, 50);
