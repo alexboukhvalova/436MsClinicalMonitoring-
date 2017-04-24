@@ -167,7 +167,7 @@ public class BubbleActivity extends Activity implements Sheets.Host {
         bubble.setVisibility(View.GONE);
 
         // the max number of trials can be changed here
-        //TODO change conditional to be based on 10 seconds instead of 10 bubble pops 
+        //TODO change conditional to be based on 10 seconds instead of 10 bubble pops
         if (totalBubbles < 10) {
 
             /*
