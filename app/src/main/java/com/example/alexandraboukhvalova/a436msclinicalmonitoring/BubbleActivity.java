@@ -2,6 +2,7 @@ package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
@@ -23,6 +24,9 @@ public class BubbleActivity extends Activity implements Sheets.Host {
     int poppedBubbles = 0;
     long timeOfBirth;
     long timeOfDeath;
+
+    // distance between old and new bubble to be tapped
+    final int BUBBLE_RADIUS = 50;
 
     // to store response times
     final ArrayList<Double> lifespans = new ArrayList<Double>();
@@ -59,6 +63,9 @@ public class BubbleActivity extends Activity implements Sheets.Host {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubble);
 
+        RelativeLayout rl = (RelativeLayout)findViewById(R.id.activity_bubble);
+        rl.setBackgroundColor(Color.parseColor("FF7800")); // orange background color
+
         debugNarrator = (TextView) findViewById(R.id.debugNarrator);
         debugNarrator.setVisibility(View.INVISIBLE);
 
@@ -87,15 +94,92 @@ public class BubbleActivity extends Activity implements Sheets.Host {
         bubble.setVisibility(View.VISIBLE);
     }
 
+    /*
+    Given the start point and a fixed radius, generate a random x,y pair
+     */
+    public void randomEuclideanDistancePointsGenerator() {
+        int rangeMin = 0;
+        int rangeMax = 360;
+
+        Random r = new Random(); // generate a random angle value
+        double randomAngle = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+
+
+        double x = oldBubbleX + BUBBLE_RADIUS * Math.cos(randomAngle);
+        double y = oldBubbleY + BUBBLE_RADIUS * Math.sin(randomAngle);
+
+        // make sure that a bubble set at the new x and y would fit in the layout
+        bubble = (Button) findViewById(R.id.bubble);
+
+        // get screen dimensions
+        RelativeLayout.LayoutParams scene = (RelativeLayout.LayoutParams) bubble.getLayoutParams();
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int layoutWidth = metrics.widthPixels;
+        int layoutHeight = metrics.heightPixels;
+
+        boolean legalBubbleLocation = (x + bubble.getWidth() <= layoutWidth) &&
+                (y + bubble.getHeight() <= layoutHeight) &&
+                (x >= 0) &&
+                (y >= 0);
+
+        while (!legalBubbleLocation) {
+            randomAngle = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+            x = oldBubbleX + BUBBLE_RADIUS * Math.cos(randomAngle);
+            y = oldBubbleY + BUBBLE_RADIUS * Math.sin(randomAngle);
+
+            // check location again
+            legalBubbleLocation = (x + bubble.getWidth() <= layoutWidth) &&
+                    (y + bubble.getHeight() <= layoutHeight) &&
+                    (x >= 0) &&
+                    (y >= 0);
+        }
+
+        scene.leftMargin = (int)x;
+        scene.topMargin = (int)y;
+
+        // set bubble at new location
+        bubble.setLayoutParams(scene);
+        bubble.setVisibility(View.VISIBLE);
+
+        // save time of appearance as time of birth
+        timeOfBirth = System.nanoTime();
+
+        // increment trialNum
+        totalBubbles++;
+
+        // TODO figure out a way to preserve acurracy by not having to cast these values to ints
+        oldBubbleX = (int)x;
+        oldBubbleY = (int)y;
+
+        moveBubble();
+
+    }
+
+    /*
+    The bubble should be moved to a constant distance of 50 pixels away from the current bubble.
+    The distance can be the radius of a circle drawn around the most recent bubble.
+    The next bubble will pop up instantaneously.
+    Trial lasts for 10 seconds.
+     */
     public void moveBubble() {
         bubble.setVisibility(View.GONE);
 
         // the max number of trials can be changed here
+        //TODO change conditional to be based on 10 seconds instead of 10 bubble pops 
         if (totalBubbles < 10) {
-            bubble = (Button) findViewById(R.id.bubble);
+
+            /*
+            I have not changed any of the code below. uncomment it if this method does not work.
+            -Alex
+             */
+            randomEuclideanDistancePointsGenerator();
+
+            //bubble = (Button) findViewById(R.id.bubble);
 
             // get screen dimensions
-            RelativeLayout.LayoutParams scene = (RelativeLayout.LayoutParams) bubble.getLayoutParams();
+            /*RelativeLayout.LayoutParams scene = (RelativeLayout.LayoutParams) bubble.getLayoutParams();
             DisplayMetrics metrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
@@ -114,26 +198,27 @@ public class BubbleActivity extends Activity implements Sheets.Host {
 
             // set bubble at new location
             bubble.setLayoutParams(scene);
-            bubble.setVisibility(View.VISIBLE);
+            bubble.setVisibility(View.VISIBLE);*/
+
 
             // save time of appearance as time of birth
-            timeOfBirth = System.nanoTime();
+            //timeOfBirth = System.nanoTime();
 
             // increment trialNum
-            totalBubbles++;
+            //totalBubbles++;
 
             // update old and new coordinates
-            oldBubbleX = newBubbleX;
+            /*oldBubbleX = newBubbleX;
             oldBubbleY = newBubbleY;
             newBubbleX = x;
-            newBubbleY = y;
+            newBubbleY = y;*/
 
             // calculate distance between old and new coordinates
-            int a = Math.abs((newBubbleX - oldBubbleX)^2);
-            int b = Math.abs((newBubbleY - oldBubbleY)^2);
+            //int a = Math.abs((newBubbleX - oldBubbleX)^2);
+            //int b = Math.abs((newBubbleY - oldBubbleY)^2);
 
             // TODO : this should factor into the metric
-            double distance = Math.sqrt(a + b);
+            //double distance = Math.sqrt(a + b);
 
             /*
             // FOR DEBUG PURPOSES
@@ -150,11 +235,11 @@ public class BubbleActivity extends Activity implements Sheets.Host {
             */
 
 
-            bubble.postDelayed(new Runnable() {
+            /*bubble.postDelayed(new Runnable() {
                 public void run() {
                     moveBubble();
                 }
-            }, 5000);
+            }, 5000);*/
         }
 
         if (totalBubbles == 10) {

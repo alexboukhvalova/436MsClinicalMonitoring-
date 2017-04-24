@@ -1,130 +1,66 @@
 [
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_enter.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.2.0\\res\\anim\\abc_popup_enter.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/design_bottom_sheet_slide_in.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/ff3b741e70046a371a7002b22975ad67ce0146a4/output/res/anim/design_bottom_sheet_slide_in.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.2.0\\res\\anim\\abc_fade_in.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_grow_fade_in_from_bottom.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/88e5bf2f996f6c76f162f58a9db02e45df44be21/output/res/anim/abc_grow_fade_in_from_bottom.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_exit.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.2.0\\res\\anim\\abc_popup_exit.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/design_fab_out.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/ff3b741e70046a371a7002b22975ad67ce0146a4/output/res/anim/design_fab_out.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/design_fab_in.xml",
-        "source": "/Users/apple/.android/build-cache/657115a3f9202bdb176cdf02c36e0d74e6679c16/output/res/anim/design_fab_in.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_fade_in.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/88e5bf2f996f6c76f162f58a9db02e45df44be21/output/res/anim/abc_fade_in.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/design_fab_out.xml",
-        "source": "/Users/apple/.android/build-cache/657115a3f9202bdb176cdf02c36e0d74e6679c16/output/res/anim/design_fab_out.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/design_fab_in.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/ff3b741e70046a371a7002b22975ad67ce0146a4/output/res/anim/design_fab_in.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\design_snackbar_out.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.2.0\\res\\anim\\design_snackbar_out.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_shrink_fade_out_from_bottom.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/88e5bf2f996f6c76f162f58a9db02e45df44be21/output/res/anim/abc_shrink_fade_out_from_bottom.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_top.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.2.0\\res\\anim\\abc_slide_in_top.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/design_snackbar_out.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/ff3b741e70046a371a7002b22975ad67ce0146a4/output/res/anim/design_snackbar_out.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\design_snackbar_in.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.2.0\\res\\anim\\design_snackbar_in.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/design_snackbar_in.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/ff3b741e70046a371a7002b22975ad67ce0146a4/output/res/anim/design_snackbar_in.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/design_snackbar_in.xml",
-        "source": "/Users/apple/.android/build-cache/657115a3f9202bdb176cdf02c36e0d74e6679c16/output/res/anim/design_snackbar_in.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_popup_exit.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/88e5bf2f996f6c76f162f58a9db02e45df44be21/output/res/anim/abc_popup_exit.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/design_snackbar_out.xml",
-        "source": "/Users/apple/.android/build-cache/657115a3f9202bdb176cdf02c36e0d74e6679c16/output/res/anim/design_snackbar_out.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_slide_out_bottom.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/88e5bf2f996f6c76f162f58a9db02e45df44be21/output/res/anim/abc_slide_out_bottom.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_popup_exit.xml",
-        "source": "/Users/apple/.android/build-cache/f43b320f8e46edb6d30758e8a4f25c816dd872ac/output/res/anim/abc_popup_exit.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/design_bottom_sheet_slide_out.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/ff3b741e70046a371a7002b22975ad67ce0146a4/output/res/anim/design_bottom_sheet_slide_out.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\design_bottom_sheet_slide_in.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.2.0\\res\\anim\\design_bottom_sheet_slide_in.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_fade_out.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/88e5bf2f996f6c76f162f58a9db02e45df44be21/output/res/anim/abc_fade_out.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_fade_out.xml",
-        "source": "/Users/apple/.android/build-cache/f43b320f8e46edb6d30758e8a4f25c816dd872ac/output/res/anim/abc_fade_out.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_slide_out_top.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/88e5bf2f996f6c76f162f58a9db02e45df44be21/output/res/anim/abc_slide_out_top.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.2.0\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_popup_enter.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/88e5bf2f996f6c76f162f58a9db02e45df44be21/output/res/anim/abc_popup_enter.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_popup_enter.xml",
-        "source": "/Users/apple/.android/build-cache/f43b320f8e46edb6d30758e8a4f25c816dd872ac/output/res/anim/abc_popup_enter.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_slide_in_bottom.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/88e5bf2f996f6c76f162f58a9db02e45df44be21/output/res/anim/abc_slide_in_bottom.xml"
     },
     {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_slide_in_top.xml",
-        "source": "/Users/apple/.android/build-cache/f43b320f8e46edb6d30758e8a4f25c816dd872ac/output/res/anim/abc_slide_in_top.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_slide_in_bottom.xml",
-        "source": "/Users/apple/.android/build-cache/f43b320f8e46edb6d30758e8a4f25c816dd872ac/output/res/anim/abc_slide_in_bottom.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_bottom.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.2.0\\res\\anim\\abc_slide_in_bottom.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_slide_out_bottom.xml",
-        "source": "/Users/apple/.android/build-cache/f43b320f8e46edb6d30758e8a4f25c816dd872ac/output/res/anim/abc_slide_out_bottom.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_out.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.2.0\\res\\anim\\abc_fade_out.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\design_bottom_sheet_slide_out.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.2.0\\res\\anim\\design_bottom_sheet_slide_out.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_fade_in.xml",
-        "source": "/Users/apple/.android/build-cache/f43b320f8e46edb6d30758e8a4f25c816dd872ac/output/res/anim/abc_fade_in.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/design_bottom_sheet_slide_out.xml",
-        "source": "/Users/apple/.android/build-cache/657115a3f9202bdb176cdf02c36e0d74e6679c16/output/res/anim/design_bottom_sheet_slide_out.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_grow_fade_in_from_bottom.xml",
-        "source": "/Users/apple/.android/build-cache/f43b320f8e46edb6d30758e8a4f25c816dd872ac/output/res/anim/abc_grow_fade_in_from_bottom.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/design_bottom_sheet_slide_in.xml",
-        "source": "/Users/apple/.android/build-cache/657115a3f9202bdb176cdf02c36e0d74e6679c16/output/res/anim/design_bottom_sheet_slide_in.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\abc_grow_fade_in_from_bottom.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.2.0\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_shrink_fade_out_from_bottom.xml",
-        "source": "/Users/apple/.android/build-cache/f43b320f8e46edb6d30758e8a4f25c816dd872ac/output/res/anim/abc_shrink_fade_out_from_bottom.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_bottom.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.2.0\\res\\anim\\abc_slide_out_bottom.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_top.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.2.0\\res\\anim\\abc_slide_out_top.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\design_fab_out.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.2.0\\res\\anim\\design_fab_out.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\res\\merged\\debug\\anim\\design_fab_in.xml",
-        "source": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/C:\\436MS\\436MsClinicalMonitoring-\\libs\\SheetsLibrary\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.2.0\\res\\anim\\design_fab_in.xml"
-    },
-    {
-        "merged": "/Users/apple/Desktop/asp/cmsc436/proj01/436MsClinicalMonitoring-/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_slide_out_top.xml",
-        "source": "/Users/apple/.android/build-cache/f43b320f8e46edb6d30758e8a4f25c816dd872ac/output/res/anim/abc_slide_out_top.xml"
+        "merged": "/Users/alexandraboukhvalova/AndroidStudioProjects/436MsClinicalMonitoring/libs/SheetsLibrary/build/intermediates/res/merged/debug/anim/abc_slide_in_top.xml",
+        "source": "/Users/alexandraboukhvalova/.android/build-cache/88e5bf2f996f6c76f162f58a9db02e45df44be21/output/res/anim/abc_slide_in_top.xml"
     }
 ]
