@@ -1,10 +1,14 @@
 package com.example.alexandraboukhvalova.a436msclinicalmonitoring;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.ButtonBarLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +18,7 @@ import android.widget.TextView;
 
 import edu.umd.cmsc436.sheets.Sheets;
 
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
@@ -26,10 +31,11 @@ public class BubbleActivity extends Activity implements Sheets.Host {
     long timeOfDeath;
 
     // distance between old and new bubble to be tapped
-    final int BUBBLE_RADIUS = 50;
+    final int BUBBLE_RADIUS = 500;
+    final int CORRECTION_FACTOR = 300;
 
     // to store response times
-    final ArrayList<Double> lifespans = new ArrayList<Double>();
+    private ArrayList<Double> lifespans;
 
     int oldBubbleX;
     int oldBubbleY;
@@ -39,6 +45,8 @@ public class BubbleActivity extends Activity implements Sheets.Host {
     Button startTrial;
     Button bubble;
     TextView debugNarrator;
+
+    private String today;
 
     public static final int LIB_ACCOUNT_NAME_REQUEST_CODE = 1001;
     public static final int LIB_AUTHORIZATION_REQUEST_CODE = 1002;
@@ -58,13 +66,20 @@ public class BubbleActivity extends Activity implements Sheets.Host {
     // indicates if test should write to central spreadsheet
     private static final boolean WRITE_TO_CENTRAL = true;
 
+    private long secs,mins,hrs;
+    private String minutes,seconds;
+    private long startTime;
+    private long elapsedTime;
+    private Handler mHandler = new Handler();
+    private final int REFRESH_RATE = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubble);
 
         RelativeLayout rl = (RelativeLayout)findViewById(R.id.activity_bubble);
-        rl.setBackgroundColor(Color.parseColor("FF7800")); // orange background color
+        rl.setBackgroundColor(Color.parseColor("#FF7800")); // orange background color
 
         debugNarrator = (TextView) findViewById(R.id.debugNarrator);
         debugNarrator.setVisibility(View.INVISIBLE);
@@ -82,11 +97,27 @@ public class BubbleActivity extends Activity implements Sheets.Host {
         startTrial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startTime = System.currentTimeMillis();
+                startTimer.run();
                 startTest();
+                today = USER_ID + " " +(new Timestamp(System.currentTimeMillis())).toString();
                 // remove the start trial button
                 startTrial.setVisibility(View.INVISIBLE);
+                findViewById(R.id.helpButton).setVisibility(View.GONE);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        lifespans= new ArrayList<Double>();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //TODO: WRITE TO SHEETS
     }
 
     public void startTest() {
@@ -119,22 +150,27 @@ public class BubbleActivity extends Activity implements Sheets.Host {
         int layoutWidth = metrics.widthPixels;
         int layoutHeight = metrics.heightPixels;
 
-        boolean legalBubbleLocation = (x + bubble.getWidth() <= layoutWidth) &&
-                (y + bubble.getHeight() <= layoutHeight) &&
+        boolean legalBubbleLocation = (x + bubble.getWidth() <= layoutWidth-CORRECTION_FACTOR) &&
+                (y + bubble.getHeight() <= layoutHeight-CORRECTION_FACTOR) &&
                 (x >= 0) &&
                 (y >= 0);
 
         while (!legalBubbleLocation) {
+            Log.i("BubbleAct","illegalBubbleLocation");
             randomAngle = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
             x = oldBubbleX + BUBBLE_RADIUS * Math.cos(randomAngle);
             y = oldBubbleY + BUBBLE_RADIUS * Math.sin(randomAngle);
 
             // check location again
-            legalBubbleLocation = (x + bubble.getWidth() <= layoutWidth) &&
-                    (y + bubble.getHeight() <= layoutHeight) &&
+            legalBubbleLocation = (x + bubble.getWidth() <= layoutWidth-CORRECTION_FACTOR) &&
+                    (y + bubble.getHeight() <= layoutHeight-CORRECTION_FACTOR) &&
                     (x >= 0) &&
                     (y >= 0);
         }
+
+        Log.i("BubbleAct",layoutWidth +", " + layoutHeight);
+        Log.i("BubbleAct",x +", " + y);
+        Log.i("BubbleAct",bubble.getWidth() +", " + bubble.getHeight()+"\n");
 
         scene.leftMargin = (int)x;
         scene.topMargin = (int)y;
@@ -148,12 +184,13 @@ public class BubbleActivity extends Activity implements Sheets.Host {
 
         // increment trialNum
         totalBubbles++;
+        Log.i("BubbleAct",totalBubbles + " bubbles popped");
 
         // TODO figure out a way to preserve acurracy by not having to cast these values to ints
         oldBubbleX = (int)x;
         oldBubbleY = (int)y;
 
-        moveBubble();
+        //moveBubble();
 
     }
 
@@ -165,90 +202,15 @@ public class BubbleActivity extends Activity implements Sheets.Host {
      */
     public void moveBubble() {
         bubble.setVisibility(View.GONE);
+        randomEuclideanDistancePointsGenerator();
+    }
 
-        // the max number of trials can be changed here
-        //TODO change conditional to be based on 10 seconds instead of 10 bubble pops
-        if (totalBubbles < 10) {
+    private void completeTrial() {
+        totalBubbles = 100;
 
-            /*
-            I have not changed any of the code below. uncomment it if this method does not work.
-            -Alex
-             */
-            randomEuclideanDistancePointsGenerator();
-
-            //bubble = (Button) findViewById(R.id.bubble);
-
-            // get screen dimensions
-            /*RelativeLayout.LayoutParams scene = (RelativeLayout.LayoutParams) bubble.getLayoutParams();
-            DisplayMetrics metrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-            // set new location for bubble
-            int fullWidth = metrics.widthPixels;
-            int fullHeight = metrics.heightPixels;
-            int x = bubble.getWidth()
-                    + new Random()
-                    .nextInt(fullWidth - (4 * bubble.getWidth()));
-            int y = bubble.getHeight()
-                    + new Random()
-                    .nextInt(fullHeight - (5 * bubble.getHeight()));
-
-            scene.leftMargin = x;
-            scene.topMargin = y;
-
-            // set bubble at new location
-            bubble.setLayoutParams(scene);
-            bubble.setVisibility(View.VISIBLE);*/
-
-
-            // save time of appearance as time of birth
-            //timeOfBirth = System.nanoTime();
-
-            // increment trialNum
-            //totalBubbles++;
-
-            // update old and new coordinates
-            /*oldBubbleX = newBubbleX;
-            oldBubbleY = newBubbleY;
-            newBubbleX = x;
-            newBubbleY = y;*/
-
-            // calculate distance between old and new coordinates
-            //int a = Math.abs((newBubbleX - oldBubbleX)^2);
-            //int b = Math.abs((newBubbleY - oldBubbleY)^2);
-
-            // TODO : this should factor into the metric
-            //double distance = Math.sqrt(a + b);
-
-            /*
-            // FOR DEBUG PURPOSES
-            debugNarrator.setText("full: " + fullWidth + " x " + fullHeight + "\n"
-                            + "old location: " + oldBubbleX + " x " + oldBubbleY + "\n"
-                            + "new location: " + newBubbleX + " x " + newBubbleY + "\n"
-                            + "distX: " + a + "\n"
-                            + "distY: " + b + "\n"
-                            + "distance: " + distance + "\n"
-                            + "birthday: " + timeOfBirth + "\n"
-                            + "deathday: " + timeOfDeath + "\n"
-                    //+ "lifespan: " + lifespan + "\n"
-            );
-            */
-
-
-            /*bubble.postDelayed(new Runnable() {
-                public void run() {
-                    moveBubble();
-                }
-            }, 5000);*/
-        }
-
-        if (totalBubbles == 10) {
-            // not sure why this is here; who added?
-            totalBubbles = 100;
-
-            double result = 0.0;
-            DecimalFormat precision = new DecimalFormat("0.00");
-
+        double result = 0.0;
+        DecimalFormat precision = new DecimalFormat("0.00");
+        Log.i("BubbleAct", "10 bubbles popped");
             /*
             // FOR DEBUG PURPOSES
             String detailData = "";
@@ -257,36 +219,39 @@ public class BubbleActivity extends Activity implements Sheets.Host {
             }
             */
 
-            if(poppedBubbles > 0) {
-                double totalReactionTime = 0;
-                for (int i = 0; i < lifespans.size(); i++) {
-                    totalReactionTime += lifespans.get(i);
-                }
-                result = totalReactionTime / poppedBubbles;
-            } else {
-                result = 0.0;
+        if (poppedBubbles > 0) {
+            double totalReactionTime = 0;
+            for (int i = 0; i < lifespans.size(); i++) {
+                totalReactionTime += lifespans.get(i);
+                //LH_POP WILL HAVE LIFESPANS
+                teamSheet.writeData(Sheets.TestType.LH_POP, today,new Float(lifespans.get(i)));
             }
-
-            bubble.setVisibility(View.INVISIBLE);
-            TextView resultScreen = (TextView) findViewById(R.id.showResult);
-
-            resultScreen.setText("You hit " + poppedBubbles + " bubbles.\n"
-                            + "Your average tap response time was " + precision.format(result)
-                            + " seconds.\n"
-                    //+ detailData
-            );
-
-            teamSheet.writeData(Sheets.TestType.LH_POP, USER_ID, (float) result);
-
-            if (WRITE_TO_CENTRAL)
-                centralSheet.writeData(Sheets.TestType.LH_POP, USER_ID, (float) result);
-
-            resultScreen.setTextSize(25);
-            resultScreen.setVisibility(View.VISIBLE);
+            result = totalReactionTime / poppedBubbles;
+        } else {
+            result = 0.0;
         }
+
+        bubble.setVisibility(View.INVISIBLE);
+        TextView resultScreen = (TextView) findViewById(R.id.showResult);
+
+        resultScreen.setText("You hit " + poppedBubbles + " bubbles.\n"
+                        + "Your average tap response time was " + precision.format(result)
+                        + " seconds.\n"
+                //+ detailData
+        );
+
+        //RH_POP FINAL RESULTS
+        teamSheet.writeData(Sheets.TestType.RH_POP, USER_ID, (float) result);
+
+        if (WRITE_TO_CENTRAL)
+            centralSheet.writeData(Sheets.TestType.LH_POP, USER_ID, (float) result);
+
+        resultScreen.setTextSize(25);
+        resultScreen.setVisibility(View.VISIBLE);
     }
 
     public void initialLocation() {
+        //TODO: FIX
         bubble = (Button) findViewById(R.id.bubble);
 
         // get screen dimensions
@@ -303,6 +268,28 @@ public class BubbleActivity extends Activity implements Sheets.Host {
         int y = bubble.getHeight()
                 + new Random()
                 .nextInt(fullHeight - (5 * bubble.getHeight()));
+
+
+        boolean legalBubbleLocation = (x + bubble.getWidth() <= fullWidth-CORRECTION_FACTOR) &&
+                (y + bubble.getHeight() <= fullHeight-CORRECTION_FACTOR) &&
+                (x >= 0) &&
+                (y >= 0);
+
+        while (!legalBubbleLocation) {
+            Log.i("BubbleAct","illegalBubbleLocation");
+            x = bubble.getWidth()
+                    + new Random()
+                    .nextInt(fullWidth - (5 * bubble.getWidth()));
+            y = bubble.getHeight()
+                    + new Random()
+                    .nextInt(fullHeight - (5 * bubble.getHeight()));
+
+            // check location again
+            legalBubbleLocation = (x + bubble.getWidth() <= fullWidth-CORRECTION_FACTOR) &&
+                    (y + bubble.getHeight() <= fullHeight-CORRECTION_FACTOR) &&
+                    (x >= 0) &&
+                    (y >= 0);
+        }
 
         /*
         // FOR DEBUG PURPOSES
@@ -376,4 +363,35 @@ public class BubbleActivity extends Activity implements Sheets.Host {
         }
         Log.i(getClass().getSimpleName(), "Done");
     }
+
+    public void showInstructions(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(BubbleActivity.this);
+        builder.setTitle("Bubble Test Instructions");
+        builder.setMessage("Try to hit as many bubbles as you can once the test starts" );
+        builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int id) {
+                // if this button is clicked, close
+                // current activity
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private Runnable startTimer = new Runnable() {
+        public void run() {
+            elapsedTime = System.currentTimeMillis() - startTime;
+            //updateTimer(elapsedTime);
+            if(elapsedTime < 10000) {
+                mHandler.postDelayed(this, REFRESH_RATE);
+            } else {
+               runOnUiThread(new Runnable() {
+                   @Override
+                   public void run() {
+                       completeTrial();
+                   }
+               });
+            }
+        }
+    };
 }
