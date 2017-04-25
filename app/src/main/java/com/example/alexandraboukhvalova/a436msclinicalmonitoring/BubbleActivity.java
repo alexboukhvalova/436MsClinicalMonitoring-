@@ -21,11 +21,12 @@ import edu.umd.cmsc436.sheets.Sheets;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class BubbleActivity extends Activity implements Sheets.Host {
 
-    int totalBubbles = 0;
+    //int totalBubbles = 0;
     int poppedBubbles = 0;
     long timeOfBirth;
     long timeOfDeath;
@@ -61,13 +62,13 @@ public class BubbleActivity extends Activity implements Sheets.Host {
     private String teamSpreadsheetId = "1jus0ktF2tQw2sOjsxVb4zoDeD1Zw90KAMFNTQdkFiJQ";
 
     // user id
-    private static final String USER_ID = "t04p05";
+    private static final String USER_ID = "t04p06";
 
     // indicates if test should write to central spreadsheet
     private static final boolean WRITE_TO_CENTRAL = true;
 
-    private long secs,mins,hrs;
-    private String minutes,seconds;
+    //private long secs,mins,hrs;
+    //private String minutes,seconds;
     private long startTime;
     private long elapsedTime;
     private Handler mHandler = new Handler();
@@ -106,6 +107,15 @@ public class BubbleActivity extends Activity implements Sheets.Host {
                 findViewById(R.id.helpButton).setVisibility(View.GONE);
             }
         });
+        double[] list = {7,6,5,5,0,8,4,3,8,9,17,4,6,74,9,845,5,95,229,8,2,9,4,452,8,4,3,8,2,38,5,9,5,759,1,4,9,92,8,5,4,4,1,43,7,4,2,8};
+        ArrayList<Double> dd = new ArrayList<Double>();
+        double average = 0;
+        for(int i = 0; i < list.length; i++){
+            average+=list[i];
+            dd.add(list[i]);
+        }
+        average/=list.length;
+        Log.i("BUBBLETESTLOL",average +" "+standardDeviation(dd,average));
     }
 
     @Override
@@ -183,8 +193,8 @@ public class BubbleActivity extends Activity implements Sheets.Host {
         timeOfBirth = System.nanoTime();
 
         // increment trialNum
-        totalBubbles++;
-        Log.i("BubbleAct",totalBubbles + " bubbles popped");
+        //totalBubbles++;
+        //Log.i("BubbleAct",totalBubbles + " bubbles popped");
 
         // TODO figure out a way to preserve acurracy by not having to cast these values to ints
         oldBubbleX = (int)x;
@@ -206,7 +216,7 @@ public class BubbleActivity extends Activity implements Sheets.Host {
     }
 
     private void completeTrial() {
-        totalBubbles = 100;
+        //totalBubbles = 100;
 
         double result = 0.0;
         DecimalFormat precision = new DecimalFormat("0.00");
@@ -219,6 +229,7 @@ public class BubbleActivity extends Activity implements Sheets.Host {
             }
             */
 
+
         if (poppedBubbles > 0) {
             double totalReactionTime = 0;
             for (int i = 0; i < lifespans.size(); i++) {
@@ -227,6 +238,9 @@ public class BubbleActivity extends Activity implements Sheets.Host {
                 teamSheet.writeData(Sheets.TestType.LH_POP, today,new Float(lifespans.get(i)));
             }
             result = totalReactionTime / poppedBubbles;
+            double stdDev = standardDeviation(lifespans,totalReactionTime/lifespans.size());
+            teamSheet.writeData(Sheets.TestType.LH_CURL,today,(float) stdDev);
+
         } else {
             result = 0.0;
         }
@@ -241,7 +255,9 @@ public class BubbleActivity extends Activity implements Sheets.Host {
         );
 
         //RH_POP FINAL RESULTS
-        teamSheet.writeData(Sheets.TestType.RH_POP, USER_ID, (float) result);
+        teamSheet.writeData(Sheets.TestType.RH_POP, today, (float) result);
+
+
 
         if (WRITE_TO_CENTRAL)
             centralSheet.writeData(Sheets.TestType.LH_POP, USER_ID, (float) result);
@@ -394,4 +410,12 @@ public class BubbleActivity extends Activity implements Sheets.Host {
             }
         }
     };
+
+    private double standardDeviation(ArrayList<Double> arr, double average){
+        double stdDev = 0;
+        for(Double d: arr){
+            stdDev += ((d - average)*(d - average)) / arr.size();
+        }
+        return Math.sqrt(stdDev);
+    }
 }
